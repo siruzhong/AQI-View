@@ -33,3 +33,13 @@ html, body, #container {
 .custom-content-marker .close-btn:hover {
     background: #666;
 }
+
+#panel {
+    position: absolute;
+    background-color: white;
+    max-height: 90%;
+    overflow-y: auto;
+    top: 10px;
+    right: 10px;
+    width: 280px;
+}

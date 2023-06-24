@@ -67,6 +67,19 @@ function addControls(map) {
         const scale = new AMap.Scale();
         map.addControl(scale);
     });
+
+    AMap.plugin("AMap.PlaceSearch", () => {
+        const placeSearch = new AMap.PlaceSearch({
+            pageSize: 5,
+            pageIndex: 1,
+            city: "010",
+            citylimit: true,
+            map: map,
+            panel: "panel",
+            autoFitView: true
+        });
+        placeSearch.search('北京大学');
+    });
 }
 
 // 添加实时交通图层
