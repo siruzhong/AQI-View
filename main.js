@@ -48,26 +48,31 @@ function createMap() {
 
 // 添加地图控件
 function addControls(map) {
+    // 工具条
     AMap.plugin('AMap.ToolBar', () => {
         const toolbar = new AMap.ToolBar({position: {top: '110px', right: '40px'}});
         map.addControl(toolbar);
     });
 
+    // 工具条方向盘
     AMap.plugin('AMap.ControlBar', () => {
         const controlBar = new AMap.ControlBar({position: {top: '10px', right: '10px'}});
         map.addControl(controlBar);
     });
 
+    // 鹰眼
     AMap.plugin('AMap.HawkEye', () => {
         const overView = new AMap.HawkEye();
         map.addControl(overView);
     });
 
+    // 比例尺
     AMap.plugin('AMap.Scale', () => {
         const scale = new AMap.Scale();
         map.addControl(scale);
     });
 
+    // 地点搜索
     AMap.plugin("AMap.PlaceSearch", () => {
         const placeSearch = new AMap.PlaceSearch({
             pageSize: 5,
@@ -80,6 +85,25 @@ function addControls(map) {
         });
         placeSearch.search('北京大学');
     });
+
+    // 路线规划
+    AMap.plugin("AMap.Driving", () => {
+        const driving = new AMap.Driving({
+            map: map,
+            panel: "panel"
+        });
+        const points = [
+            {keyword: '北京市地震局（公交站）', city: '北京'},
+            {keyword: '亦庄文化园（地铁站）', city: '北京'}
+        ]
+        driving.search(points, function (status, result) {
+            if (status === 'complete') {
+                log.success('绘制驾车路线完成')
+            } else {
+                log.error('获取驾车数据失败：' + result)
+            }
+        });
+    })
 }
 
 // 添加实时交通图层
