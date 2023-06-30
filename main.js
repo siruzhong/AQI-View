@@ -6,6 +6,8 @@ function initMap() {
     loadAMapAPI().then((AMap) => {
         const map = createMap();
         addControls(map);
+        // addLocationSearch(map);
+        // addRoutePlan(map);
         toggle = addTrafficLayer(map);
         addMarker(map);
         addPolyline(map);
@@ -41,51 +43,58 @@ function createMap() {
     });
 
     return new AMap.Map('container', {
-        center: [40, 116],  // 北京经纬度
-        viewMode: '3D', zoom: 12, pitch: 30, layers: [defaultLayer],
+        viewMode: '3D',
+        zoom: 12,
+        pitch: 30,
+        layers: [defaultLayer],
     });
 }
 
 // 添加地图控件
 function addControls(map) {
-    // 工具条
-    AMap.plugin('AMap.ToolBar', () => {
+    AMap.plugin(['AMap.ToolBar', 'AMap.ControlBar', 'AMap.HawkEye', 'AMap.Scale'], () => {
+        // 工具条
         const toolbar = new AMap.ToolBar({position: {top: '110px', right: '40px'}});
         map.addControl(toolbar);
-    });
-
-    // 工具条方向盘
-    AMap.plugin('AMap.ControlBar', () => {
+        // 工具条方向盘
         const controlBar = new AMap.ControlBar({position: {top: '10px', right: '10px'}});
         map.addControl(controlBar);
-    });
-
-    // 鹰眼
-    AMap.plugin('AMap.HawkEye', () => {
-        const overView = new AMap.HawkEye();
-        map.addControl(overView);
-    });
-
-    // 比例尺
-    AMap.plugin('AMap.Scale', () => {
+        // 鹰眼
+        const hawkEye = new AMap.HawkEye();
+        map.addControl(hawkEye);
+        // 比例尺
         const scale = new AMap.Scale();
         map.addControl(scale);
     });
+}
 
-    // 地点搜索
+// 添加地点搜索
+function addLocationSearch(map) {
     AMap.plugin("AMap.PlaceSearch", () => {
         const placeSearch = new AMap.PlaceSearch({
-            pageSize: 5, pageIndex: 1, city: "010", citylimit: true, map: map, panel: "panel", autoFitView: true
+            pageSize: 5,
+            pageIndex: 1,
+            city: "010",
+            citylimit: true,
+            map: map,
+            panel: "panel",
+            autoFitView: true
         });
         placeSearch.search('北京大学');
     });
+}
 
-    // 路线规划
+// 添加路线规划
+function addRoutePlan(map) {
     AMap.plugin("AMap.Driving", () => {
         const driving = new AMap.Driving({
-            map: map, panel: "panel"
+            map: map,
+            panel: "panel"
         });
-        const points = [{keyword: '北京市地震局（公交站）', city: '北京'}, {keyword: '亦庄文化园（地铁站）', city: '北京'}]
+        const points = [
+            {keyword: '北京市地震局（公交站）', city: '北京'},
+            {keyword: '亦庄文化园（地铁站）', city: '北京'}
+        ]
         driving.search(points, function (status, result) {
             if (status === 'complete') {
                 log.success('绘制驾车路线完成')
