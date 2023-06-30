@@ -6,7 +6,7 @@ function initMap() {
     loadAMapAPI().then((AMap) => {
         const map = createMap();
         addControls(map);
-        addTrafficLayer(map);
+        toggle = addTrafficLayer(map);
         addMarker(map);
         addPolyline(map);
         addCustomMarker(map);
@@ -22,8 +22,7 @@ function loadAMapAPI() {
         script.src = "https://webapi.amap.com/loader.js";
         script.onload = () => {
             AMapLoader.load({
-                key: "6d68d1e990cb46c98388581e2f7b2974",
-                version: "2.0"
+                key: "6d68d1e990cb46c98388581e2f7b2974", version: "2.0"
             }).then((AMap) => {
                 resolve(AMap);
             }).catch((error) => {
@@ -36,13 +35,14 @@ function loadAMapAPI() {
 
 // 创建地图对象
 function createMap() {
-    // 创建默认图层
-    const defaultLayer = new AMap.createDefaultLayer({zooms: [3, 20], visible: true, opacity: 1, zIndex: 0});
+    // 默认图层
+    const defaultLayer = new AMap.createDefaultLayer({
+        zooms: [3, 20], visible: true, opacity: 1, zIndex: 0
+    });
 
     return new AMap.Map('container', {
-        viewMode: '2D',
-        zoom: 11,
-        layers: [defaultLayer]
+        center: [40, 116],  // 北京经纬度
+        viewMode: '3D', zoom: 12, pitch: 30, layers: [defaultLayer],
     });
 }
 
@@ -75,13 +75,7 @@ function addControls(map) {
     // 地点搜索
     AMap.plugin("AMap.PlaceSearch", () => {
         const placeSearch = new AMap.PlaceSearch({
-            pageSize: 5,
-            pageIndex: 1,
-            city: "010",
-            citylimit: true,
-            map: map,
-            panel: "panel",
-            autoFitView: true
+            pageSize: 5, pageIndex: 1, city: "010", citylimit: true, map: map, panel: "panel", autoFitView: true
         });
         placeSearch.search('北京大学');
     });
@@ -89,13 +83,9 @@ function addControls(map) {
     // 路线规划
     AMap.plugin("AMap.Driving", () => {
         const driving = new AMap.Driving({
-            map: map,
-            panel: "panel"
+            map: map, panel: "panel"
         });
-        const points = [
-            {keyword: '北京市地震局（公交站）', city: '北京'},
-            {keyword: '亦庄文化园（地铁站）', city: '北京'}
-        ]
+        const points = [{keyword: '北京市地震局（公交站）', city: '北京'}, {keyword: '亦庄文化园（地铁站）', city: '北京'}]
         driving.search(points, function (status, result) {
             if (status === 'complete') {
                 log.success('绘制驾车路线完成')
@@ -106,18 +96,33 @@ function addControls(map) {
     })
 }
 
-// 添加实时交通图层
+// 添加实时路况图层
 function addTrafficLayer(map) {
-    const trafficLayer = new AMap.TileLayer.Traffic({autoRefresh: true, interval: 180});
+    const trafficLayer = new AMap.TileLayer.Traffic({
+        autoRefresh: true,
+        interval: 180
+    });
+
     map.add(trafficLayer);
+    var isVisible = true;
+
+    function toggle() {
+        if (isVisible) {
+            trafficLayer.hide();
+            isVisible = false;
+        } else {
+            trafficLayer.show();
+            isVisible = true;
+        }
+    }
+
+    return toggle;
 }
 
 // 添加点标记
 function addMarker(map) {
     const infoWindow = new AMap.InfoWindow({
-        isCustom: true,
-        content: '<div>Air quality prediction system</div>',
-        offset: new AMap.Pixel(16, -45)
+        isCustom: true, content: '<div>Air quality prediction system</div>', offset: new AMap.Pixel(16, -45)
     });
 
     const onMarkerClick = function (e) {
@@ -131,18 +136,10 @@ function addMarker(map) {
 
 // 添加折线
 function addPolyline(map) {
-    const lineArr = [
-        [116.368904, 39.913423],
-        [116.382122, 39.901176],
-        [116.387271, 39.912501],
-        [116.398258, 39.904600]
-    ];
+    const lineArr = [[116.368904, 39.913423], [116.382122, 39.901176], [116.387271, 39.912501], [116.398258, 39.904600]];
 
     const polyline = new AMap.Polyline({
-        path: lineArr,
-        strokeColor: "#3366FF",
-        strokeWeight: 5,
-        strokeStyle: "solid"
+        path: lineArr, strokeColor: "#3366FF", strokeWeight: 5, strokeStyle: "solid"
     });
 
     map.add(polyline);
@@ -150,17 +147,11 @@ function addPolyline(map) {
 
 // 添加自定义标记
 function addCustomMarker(map) {
-    const markerContent = '' +
-        '<div class="custom-content-marker">' +
-        '   <img src="//a.amap.com/jsapi_demos/static/demo-center/icons/dir-via-marker.png">' +
-        '   <div class="close-btn" onclick="clearMarker()">X</div>' +
-        '</div>';
+    const markerContent = '' + '<div class="custom-content-marker">' + '   <img src="//a.amap.com/jsapi_demos/static/demo-center/icons/dir-via-marker.png">' + '   <div class="close-btn" onclick="clearMarker()">X</div>' + '</div>';
 
     const position = new AMap.LngLat(116.397428, 39.90923);
     const marker = new AMap.Marker({
-        position: position,
-        content: markerContent,
-        offset: new AMap.Pixel(-13, -30)
+        position: position, content: markerContent, offset: new AMap.Pixel(-13, -30)
     });
 
     map.add(marker);
@@ -182,15 +173,13 @@ function addPolygons(map) {
 
         polygon.on('mouseover', () => {
             polygon.setOptions({
-                fillOpacity: 0.7,
-                fillColor: '#7bccc4'
+                fillOpacity: 0.7, fillColor: '#7bccc4'
             });
         });
 
         polygon.on('mouseout', () => {
             polygon.setOptions({
-                fillOpacity: 0.5,
-                fillColor: '#ccebc5'
+                fillOpacity: 0.5, fillColor: '#ccebc5'
             });
         });
 
