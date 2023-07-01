@@ -52,19 +52,13 @@ function createMap() {
 
 // 添加地图控件
 function addControls(map) {
-    AMap.plugin(['AMap.ToolBar', 'AMap.ControlBar', 'AMap.HawkEye', 'AMap.Scale'], () => {
-        // 工具条
-        const toolbar = new AMap.ToolBar({position: {top: '110px', right: '40px'}});
-        map.addControl(toolbar);
-        // 工具条方向盘
-        const controlBar = new AMap.ControlBar({position: {top: '10px', right: '10px'}});
-        map.addControl(controlBar);
-        // 鹰眼
-        const hawkEye = new AMap.HawkEye();
-        map.addControl(hawkEye);
-        // 比例尺
-        const scale = new AMap.Scale();
-        map.addControl(scale);
+    // 加载插件
+    AMap.plugin(['AMap.ToolBar', 'AMap.ControlBar', 'AMap.HawkEye', 'AMap.Scale', 'AMap.MapType'], () => {
+        map.addControl(new AMap.ToolBar({position: {top: '120px', right: '40px'}}));    // 工具条
+        map.addControl(new AMap.ControlBar({position: {top: '10px', right: '10px'}}));  // 工具条方向盘
+        map.addControl(new AMap.HawkEye()); // 鹰眼
+        map.addControl(new AMap.Scale());   // 比例尺
+        map.addControl(new AMap.MapType({position: {top: '200px', right: '10px'}}));    // 地图形式
     });
 }
 
