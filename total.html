@@ -6,102 +6,21 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
     <title>Air quality prediction system</title>
     <style>
-        /* CSS styles */
         html, body, #container {
-            width: 80%;
-            height: 80%;
-            margin: 50px;
-            /*position: absolute;*/
+            height: 100%;
+        }
+
+        .btn {
+            width: 14em;
+            margin-top: 0.2rem;
         }
 
         html {
             font-size: 12px;
         }
 
-        #container {
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-        }
-
-        .custom-content-marker {
-            position: relative;
-            width: 25px;
-            height: 34px;
-        }
-
-        .custom-content-marker img {
-            width: 100%;
-            height: 100%;
-        }
-
-        .custom-content-marker .close-btn {
-            position: absolute;
-            top: -6px;
-            right: -8px;
-            width: 15px;
-            height: 15px;
-            font-size: 12px;
-            background: #ccc;
-            border-radius: 50%;
-            color: #fff;
-            text-align: center;
-            line-height: 15px;
-            box-shadow: -1px 1px 1px rgba(10, 10, 10, .2);
-        }
-
-        .custom-content-marker .close-btn:hover {
-            background: #666;
-        }
-
-        #panel {
-            position: absolute;
-            background-color: white;
-            max-height: 90%;
-            overflow-y: auto;
-            top: 10px;
-            right: 10px;
-            width: 280px;
-        }
-
-        #panel {
-            position: fixed;
-            background-color: white;
-            max-height: 90%;
-            overflow-y: auto;
-            top: 10px;
-            right: 10px;
-            width: 280px;
-        }
-
-        #panel .amap-call {
-            background-color: #009cf9;
-            border-top-left-radius: 4px;
-            border-top-right-radius: 4px;
-        }
-
-        #panel .amap-lib-driving {
-            border-bottom-left-radius: 4px;
-            border-bottom-right-radius: 4px;
-            overflow: hidden;
-        }
-
-        .amap-copyright {
-            box-sizing: content-box
-        }
-
         * {
             box-sizing: border-box
-        }
-
-        .input-textarea {
-            color: grey;
-            height: 8em;
-            overflow: auto;
-            border-radius: 0.4rem;
-            border: 1px solid #ced4da;
-            margin-bottom: 1rem;
         }
 
         body {
@@ -250,11 +169,8 @@
             padding: 0.4rem 0.7rem;
             display: inline-block;
             text-justify: distribute-all-lines;
-            /*ie6-8*/
             text-align-last: justify;
-            /* ie9*/
             -moz-text-align-last: justify;
-            /*ff*/
             -webkit-text-align-last: justify;
             /*chrome 20+*/
             -ms-flex-align: center;
@@ -294,41 +210,13 @@
             left: 1rem;
             -ms-flex: 1 1 auto;
             flex: 1 1 auto;
-            padding: 0.5rem 0.5rem;
-        }
-
-        .input-text {
-            line-height: 2rem;
-            margin-right: 2rem;
+            padding: 0.75rem 1.25rem;
         }
 
         .info hr {
             margin-right: 0;
             margin-left: 0;
             border-top-color: grey;
-        }
-
-        .info {
-            padding: .75rem 1.25rem;
-            margin-bottom: 1rem;
-            border-radius: .25rem;
-            position: fixed;
-            top: 1rem;
-            background-color: white;
-            width: auto;
-            min-width: 22rem;
-            border-width: 0;
-            right: 1rem;
-            box-shadow: 0 2px 6px 0 rgba(114, 124, 245, .5);
-        }
-
-        .code {
-            left: 1.5rem;
-            right: 1.5rem;
-            top: 1.5rem;
-            bottom: 1.5rem;
-            overflow: auto;
-            margin-bottom: 0rem;
         }
 
         .code .btn {
@@ -399,97 +287,10 @@
             background-color: #fff
         }
 
-
-        /* native toastr */
-        .native-toast {
-            position: fixed;
-            background-color: rgba(50, 50, 50, .8);
-            border-radius: 33px;
-            color: white;
-            left: 50%;
-            text-align: center;
-            padding: 6px 12px;
-            opacity: 0;
-            z-index: 99999;
-            transition: transform .25s, opacity .25s, top .25s;
-            box-sizing: border-box;
-        }
-
-        .native-toast-bottom {
-            bottom: 50px;
-            -ms-transform: translateX(-50%) translateY(50px);
-            transform: translateX(-50%) translateY(50px)
-        }
-
-        .native-toast-bottom.native-toast-shown {
-            opacity: 1;
-            -ms-transform: translateX(-50%) translateY(0);
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .native-toast-bottom.native-toast-edge {
-            bottom: 0;
-        }
-
-        .native-toast-top {
-            top: 50px;
-            -ms-transform: translateX(-50%) translateY(-50px);
-            transform: translateX(-50%) translateY(-50px)
-        }
-
-        .native-toast-top.native-toast-shown {
-            opacity: 1;
-            -ms-transform: translateX(-50%) translateY(0);
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .native-toast-top.native-toast-edge {
-            top: 0;
-        }
-
-        .native-toast-center {
-            top: 0;
-            -ms-transform: translateX(-50%) translateY(-50px);
-            transform: translateX(-50%) translateY(-50px)
-        }
-
-        .native-toast-center.native-toast-shown {
-            opacity: 1;
-            top: 50%;
-            -ms-transform: translateX(-50%) translateY(-50%);
-            transform: translateX(-50%) translateY(-50%);
-        }
-
-        .native-toast-edge {
-            border-radius: 0;
-            width: 100%;
-            text-align: left;
-        }
-
         @media screen and (min-width: 40rem) {
             .native-toast:not(.native-toast-edge) {
                 max-width: 18rem;
             }
-        }
-
-        .native-toast-error {
-            background-color: #d92727;
-            color: white;
-        }
-
-        .native-toast-success {
-            background-color: #62a465;
-            color: white;
-        }
-
-        .native-toast-warning {
-            background-color: #fdaf17;
-            color: white;
-        }
-
-        .native-toast-info {
-            background-color: #5060ba;
-            color: white;
         }
 
         [class^="native-toast-icon-"] {
@@ -502,109 +303,68 @@
             height: 16px;
         }
 
-        .button-group {
+        .custom-content-marker {
+            position: relative;
+            width: 25px;
+            height: 34px;
+        }
+
+        .custom-content-marker img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .custom-content-marker .close-btn {
             position: absolute;
-            bottom: 20px;
-            right: 20px;
+            top: -6px;
+            right: -8px;
+            width: 15px;
+            height: 15px;
             font-size: 12px;
-            padding: 10px;
+            background: #ccc;
+            border-radius: 50%;
+            color: #fff;
+            text-align: center;
+            line-height: 15px;
+            box-shadow: -1px 1px 1px rgba(10, 10, 10, .2);
         }
 
-        .button-group .button {
-            height: 28px;
-            line-height: 28px;
-            background-color: #0D9BF2;
-            color: #FFF;
-            border: 0;
-            outline: none;
-            padding-left: 5px;
-            padding-right: 5px;
-            border-radius: 3px;
-            margin-bottom: 4px;
-            cursor: pointer;
-        }
-
-        .button-group .inputtext {
-            height: 26px;
-            line-height: 26px;
-            border: 1px;
-            outline: none;
-            padding-left: 5px;
-            padding-right: 5px;
-            border-radius: 3px;
-            margin-bottom: 4px;
-            cursor: pointer;
-        }
-
-        #tip {
-            background-color: #fff;
-            padding-left: 10px;
-            padding-right: 10px;
-            position: absolute;
-            font-size: 12px;
-            right: 10px;
-            top: 20px;
-            border-radius: 3px;
-            border: 1px solid #ccc;
-            line-height: 30px;
-        }
-
-        .amap-info-content {
-            font-size: 12px;
-        }
-
-        #myPageTop {
-            position: absolute;
-            top: 5px;
-            right: 10px;
-            background: #fff none repeat scroll 0 0;
-            border: 1px solid #ccc;
-            margin: 10px auto;
-            padding: 6px;
-            font-family: "Microsoft Yahei", "微软雅黑", "Pinghei";
-            font-size: 14px;
-        }
-
-        #myPageTop label {
-            margin: 0 20px 0 0;
-            color: #666666;
-            font-weight: normal;
-        }
-
-        #myPageTop input {
-            width: 170px;
-        }
-
-        #myPageTop .column2 {
-            padding-left: 25px;
+        .custom-content-marker .close-btn:hover {
+            background: #666;
         }
     </style>
 </head>
 <body>
 <div id="container"></div>
-<div id="panel"></div>
-<div class="input-card" style="width: auto;">
+<!-- Latitude and Longitude -->
+<div class="input-card">
+    <label style='color:grey'>输入或点击地图获取:(经度,纬度)</label>
     <div class="input-item">
-        <button class="btn" onclick="toggle()">显示/隐藏实时路况</button>
+        <div class="input-item-prepend"><span class="input-item-text">经纬度</span></div>
+        <input id='lnglat' type="text" value="116.611279,40.113257">
+    </div>
+    <label style='color:grey'>输入容器像素坐标:(x, y)</label>
+    <div class="input-item">
+        <div class="input-item-prepend"><span class="input-item-text">容器坐标</span></div>
+        <input id='pixel' type="text">
+    </div>
+    <div>
+        <input id="lnglat2container" type="button" class="btn" value="纬度和经度->容器像素坐标"/>
+        <input id="container2lnglat" type="button" class="btn" value="容器像素坐标->经纬度"/>
     </div>
 </div>
-<!--加载JS API-->
+
 <script>
     function initMap() {
-        window._AMapSecurityConfig = {
-            securityJsCode: "b1997f139893c857e21d0be22054b106",
-        };
-
+        // Load AMap API
         loadAMapAPI().then((AMap) => {
             const map = createMap();
             addControls(map);
-            // addLocationSearch(map);
-            // addRoutePlan(map);
-            toggle = addTrafficLayer(map);
             addMarker(map);
             addPolyline(map);
-            addCustomMarker(map);
             addPolygons(map);
+            transformLatitudeAndLongitude(map);
+            computeDistance(map);
         }).catch((e) => {
             console.error(e);
         });
@@ -616,7 +376,8 @@
             script.src = "https://webapi.amap.com/loader.js";
             script.onload = () => {
                 AMapLoader.load({
-                    key: "6d68d1e990cb46c98388581e2f7b2974", version: "2.0"
+                    key: "6d68d1e990cb46c98388581e2f7b2974",
+                    version: "2.0"
                 }).then((AMap) => {
                     resolve(AMap);
                 }).catch((error) => {
@@ -627,11 +388,13 @@
         });
     }
 
-    // 创建地图对象
+    // Create the map object
     function createMap() {
-        // 默认图层
         const defaultLayer = new AMap.createDefaultLayer({
-            zooms: [3, 20], visible: true, opacity: 1, zIndex: 0
+            zooms: [3, 20],
+            visible: true,
+            opacity: 1,
+            zIndex: 0
         });
 
         return new AMap.Map('container', {
@@ -642,94 +405,67 @@
         });
     }
 
-    // 添加地图控件
+    // Add map controls
     function addControls(map) {
-        // 加载插件
         AMap.plugin(['AMap.ToolBar', 'AMap.ControlBar', 'AMap.HawkEye', 'AMap.Scale', 'AMap.MapType'], () => {
-            map.addControl(new AMap.ToolBar({position: {top: '120px', right: '40px'}}));    // 工具条
-            map.addControl(new AMap.ControlBar({position: {top: '10px', right: '10px'}}));  // 工具条方向盘
-            map.addControl(new AMap.HawkEye()); // 鹰眼
-            map.addControl(new AMap.Scale());   // 比例尺
-            map.addControl(new AMap.MapType({position: {top: '200px', right: '10px'}}));    // 地图形式
+            map.addControl(new AMap.ToolBar({position: {top: '120px', right: '40px'}}));
+            map.addControl(new AMap.ControlBar({position: {top: '10px', right: '10px'}}));
+            map.addControl(new AMap.HawkEye());
+            map.addControl(new AMap.Scale());
+            map.addControl(new AMap.MapType({position: {top: '200px', right: '10px'}}));
         });
     }
 
-    // 添加地点搜索
-    function addLocationSearch(map) {
-        AMap.plugin("AMap.PlaceSearch", () => {
-            const placeSearch = new AMap.PlaceSearch({
-                pageSize: 5,
-                pageIndex: 1,
-                city: "010",
-                citylimit: true,
-                map: map,
-                panel: "panel",
-                autoFitView: true
-            });
-            placeSearch.search('北京大学');
-        });
-    }
-
-    // 添加路线规划
-    function addRoutePlan(map) {
-        AMap.plugin("AMap.Driving", () => {
-            const driving = new AMap.Driving({
-                map: map,
-                panel: "panel"
-            });
-            const points = [
-                {keyword: '北京市地震局（公交站）', city: '北京'},
-                {keyword: '亦庄文化园（地铁站）', city: '北京'}
-            ]
-            driving.search(points, function (status, result) {
-                if (status === 'complete') {
-                    log.success('绘制驾车路线完成')
-                } else {
-                    log.error('获取驾车数据失败：' + result)
-                }
-            });
-        })
-    }
-
-    // 添加点标记
+    // Add markers
     function addMarker(map) {
-        const infoWindow = new AMap.InfoWindow({
-            isCustom: true, content: '<div>Air quality prediction system</div>', offset: new AMap.Pixel(16, -45)
+        // Handle click event on map to add a marker
+        map.on('click', function (event) {
+            const marker = new AMap.Marker({position: event.lnglat});
+            map.add(marker)
         });
 
+        // Create a custom marker with content
+        const markerContent = `
+        <div class="custom-content-marker">
+          <img src="//a.amap.com/jsapi_demos/static/demo-center/icons/dir-via-marker.png">
+          <div class="close-btn" onclick="clearMarker()"></div>
+        </div>`;
+        const position = new AMap.LngLat(114.233811, 30.579793);
+        const marker1 = new AMap.Marker({
+            position: position,
+            content: markerContent,
+            offset: new AMap.Pixel(-13, -30)
+        });
+        map.add(marker1);
+
+        const marker2 = new AMap.Marker({position: [114.215685, 30.630594]});
+        map.add(marker2);
+
+        // Handle marker click event to open an info window
         const onMarkerClick = function (e) {
+            const infoWindow = new AMap.InfoWindow({
+                isCustom: true,
+                content: '<div>Air quality prediction system</div>',
+                offset: new AMap.Pixel(16, -45)
+            });
             infoWindow.open(map, e.target.getPosition());
         };
-
-        const marker = new AMap.Marker({position: [116.481181, 39.989792]});
-        map.add(marker);
-        marker.on('click', onMarkerClick);
+        marker2.on('click', onMarkerClick);
     }
 
-    // 添加折线
+    // Add a polyline
     function addPolyline(map) {
         const lineArr = [[116.368904, 39.913423], [116.382122, 39.901176], [116.387271, 39.912501], [116.398258, 39.904600]];
-
         const polyline = new AMap.Polyline({
-            path: lineArr, strokeColor: "#3366FF", strokeWeight: 5, strokeStyle: "solid"
+            path: lineArr,
+            strokeColor: "#3366FF",
+            strokeWeight: 5,
+            strokeStyle: "solid"
         });
-
         map.add(polyline);
     }
 
-    // 添加自定义标记
-    function addCustomMarker(map) {
-        const markerContent = '' + '<div class="custom-content-marker">' + '   <img src="//a.amap.com/jsapi_demos/static/demo-center/icons/dir-via-marker.png">' + '   <div class="close-btn" onclick="clearMarker()">X</div>' + '</div>';
-
-        const position = new AMap.LngLat(116.397428, 39.90923);
-        const marker = new AMap.Marker({
-            position: position, content: markerContent, offset: new AMap.Pixel(-13, -30)
-        });
-
-        map.add(marker);
-    }
-
-    // 添加多边形
+    // Add polygons
     function addPolygons(map) {
         function addPolygon(data) {
             const polygon = new AMap.Polygon({
@@ -742,19 +478,18 @@
                 strokeStyle: 'dashed',
                 strokeDasharray: [5, 5]
             });
-
             polygon.on('mouseover', () => {
                 polygon.setOptions({
-                    fillOpacity: 0.7, fillColor: '#7bccc4'
+                    fillOpacity: 0.7,
+                    fillColor: '#7bccc4'
                 });
             });
-
             polygon.on('mouseout', () => {
                 polygon.setOptions({
-                    fillOpacity: 0.5, fillColor: '#ccebc5'
+                    fillOpacity: 0.5,
+                    fillColor: '#ccebc5'
                 });
             });
-
             map.add(polygon);
         }
 
@@ -763,6 +498,99 @@
         addPolygon(wuxi);
     }
 
+    // Transform latitude and longitude <-> container pixel coordinates
+    function transformLatitudeAndLongitude(map) {
+        var $ = function (elementId) {
+            return document.getElementById(elementId);
+        };
+        var lnglatInput = $('lnglat');
+        var pixelInput = $('pixel');
+
+        // Convert latitude and longitude to container pixel coordinates
+        function lnglat2container() {
+            if (!lnglatInput.value) return;
+            var inputVal = lnglatInput.value.split(',');
+            var lnglat = new AMap.LngLat(inputVal[0], inputVal[1]);
+            var pixel = map.lngLatToContainer(lnglat);
+            pixelInput.value = pixel.round();
+        }
+
+        // Convert container pixel coordinates to latitude and longitude
+        function container2lnglat() {
+            if (!pixelInput.value) return;
+            var inputVal = pixelInput.value.split(',');
+            var pixel = new AMap.Pixel(inputVal[0], inputVal[1]);
+            var lnglat = map.containerToLngLat(pixel);
+            lnglatInput.value = lnglat;
+        }
+
+        // Handle map click event to update the latitude and longitude input
+        map.on('click', function (event) {
+            lnglatInput.value = event.lnglat.toString();
+        });
+
+        // Initial conversion and bind click events to buttons
+        lnglat2container();
+        document.getElementById("lnglat2container").onclick = lnglat2container;
+        document.getElementById("container2lnglat").onclick = container2lnglat;
+    }
+
+    // Compute distance between two markers
+    function computeDistance(map) {
+        // Create two draggable markers
+        const m1 = new AMap.Marker({
+            map: map,
+            draggable: true,
+            position: new AMap.LngLat(114.255025, 30.621273) // First marker's position
+        });
+        const m2 = new AMap.Marker({
+            map: map,
+            draggable: true,
+            position: new AMap.LngLat(114.334332, 30.579608) // Second marker's position
+        });
+        // Adjust map view to include all marked points
+        // map.setFitView();
+
+        // Create a line
+        const line = new AMap.Polyline({
+            strokeColor: '#80d8ff',
+            isOutline: true,
+            outerlineColor: 'white'
+        });
+        line.setMap(map);
+
+        // Create a text marker
+        const text = new AMap.Text({
+            text: '',
+            style: {
+                'background-color': '#29b6f6',
+                'border-color': '#e1f5fe',
+                'font-size': '16px'
+            }
+        });
+        text.setMap(map);
+
+        // Compute distance and update display
+        function compute() {
+            const p1 = m1.getPosition();
+            const p2 = m2.getPosition();
+            const textPos = p1.divideBy(2).add(p2.divideBy(2));
+            const distance = Math.round(p1.distance(p2));
+            const path = [p1, p2];
+            line.setPath(path);
+            text.setText('Distance: ' + distance + ' meters');
+            text.setPosition(textPos);
+        }
+
+        // Compute distance initially
+        compute();
+
+        // Update distance on marker drag
+        m1.on('dragging', compute);
+        m2.on('dragging', compute);
+    }
+
+    // Initialize the map
     initMap();
 </script>
 <script src="https://a.amap.com/jsapi_demos/static/geojson/shanghai.js"></script>
