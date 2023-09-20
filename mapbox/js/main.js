@@ -35,7 +35,7 @@ function csvToGeoJSON(csv) {
     return geojson;
 }
 
-map.on('load', function () {
+function addStationsLayer() {
     // Convert your CSV data to GeoJSON
     const geojsonData = csvToGeoJSON(station_data);
 
@@ -55,19 +55,23 @@ map.on('load', function () {
             'circle-color': '#64b4b9'
         },
     });
+}
+
+map.on('load', function () {
+    addStationsLayer(); // 当地图首次加载时，添加数据层
 });
 
-
 // Display map menus
-// const layerList = document.getElementById('menu');
-// const inputs = layerList.getElementsByTagName('input');
-//
-// for (const input of inputs) {
-//     input.onclick = (layer) => {
-//         const layerId = layer.target.id;
-//         map.setStyle('mapbox://styles/mapbox/' + layerId);
-//     };
-// }
+const layerList = document.getElementById('menu');
+const inputs = layerList.getElementsByTagName('input');
+
+for (const input of inputs) {
+    input.onclick = (layer) => {
+        const layerId = layer.target.id;
+        map.setStyle('mapbox://styles/mapbox/' + layerId);
+        map.once('style.load', addStationsLayer); // 重新添加数据源和图层
+    };
+}
 
 var popup = new mapboxgl.Popup({
     closeOnClick: false,
@@ -166,6 +170,3 @@ map.addControl(new mapboxgl.NavigationControl());
 
 // Add a scale control to the map
 map.addControl(new mapboxgl.ScaleControl());
-
-
-// https://docs.mapbox.com/mapbox-gl-js/example/data-join/
