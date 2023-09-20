@@ -6,85 +6,79 @@
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
-
-        #map {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 100%;
-        }
-
-        /*.mapboxgl-popup-content {*/
-        /*    background-color: #e6f7ff; !* 浅蓝色背景 *!*/
-        /*    color: #333; !* 深色文字 *!*/
-        /*    border-radius: 3px;*/
-        /*    padding: 8px;*/
-        /*    font-size: 12px;*/
-        /*}*/
-
-        .popup-header {
-            font-size: 14px;
-            border-bottom: 1px solid #ccc;
-            margin-bottom: 6px;
-            padding-bottom: 4px;
-        }
-
-        .popup-body p {
-            margin: 4px 0;
-        }
-
-    </style>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+
+
+<header class="header">
+    <div class="header-contents">
+        <a href="/" class="header-logo" aria-label="openaq logo">
+            <img class="small-logo" src="/mapbox/assets/logo.png">
+        </a>
+        <div class="spacer"></div>
+        <nav class="nav">
+            <label class="menu-button-container" for="menu-toggle">
+                <input id="menu-toggle" type="checkbox">
+                <button class="menu-button button-reset">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </label>
+            <ul class="nav-list ">
+                <li><a class="nav__item nav__item--active explore-data-tab" href="https://explore.openaq.org">Explore
+                    the data (Beta)</a></li>
+                <li><a href="https://openaq.org/why-air-quality" class="nav__item air-quality-tab">Why air quality?</a>
+                </li>
+                <li><a href="https://openaq.org/why-open-data" class="nav__item open-data-tab">Why open data?</a></li>
+                <li><a href="https://openaq.org/partners" class="nav__item partners-tab">Partners</a></li>
+                <li class="dropdown">
+                    <a href="https://openaq.org/developers/platform-overview/" aria-haspopup="true" class="nav__item">Developers</a>
+                    <ul class="submenu" aria-label="submenu">
+                        <li class="submenu__item"><a class="nav__item api-overview-nav"
+                                                     href="https://openaq.org/developers/platform-overview/">Platform
+                            Overview</a></li>
+                        <li class="submenu__item"><a class="nav__item documentation-nav js-header-docs-link"
+                                                     href="https://docs.openaq.org">Developer Documentation</a></li>
+                        <li class="submenu__item"><a class="nav__item dev-use-case-nav"
+                                                     href="https://openaq.org/use-cases/developer/">Developer Use
+                            Cases</a></li>
+                        <li class="submenu__item"><a class="nav__item help-nav"
+                                                     href="https://openaq.org/developers/help/">Help</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"><a href="https://openaq.org/about/" aria-haspopup="true"
+                                        class="nav__item">About</a>
+                    <ul class="submenu" aria-label="submenu">
+                        <li class="submenu__item"><a class="nav__item about-nav" href="https://openaq.org/about/">About
+                            Us</a></li>
+                        <li class="submenu__item"><a class="nav__item initiatives-nav"
+                                                     href="https://openaq.org/about/initiatives/">Initiatives</a></li>
+                        <li class="submenu__item"><a class="nav__item people-nav"
+                                                     href="https://openaq.org/about/people/">People</a></li>
+                        <li class="submenu__item"><a class="nav__item" href="https://openaq.org/about/blog">Blog</a>
+                        </li>
+                        <li class="submenu__item"><a class="nav__item use-cases-nav"
+                                                     href="https://openaq.org/use-cases/">Use Cases</a></li>
+                        <li class="submenu__item"><a class="nav__item reporting-nav"
+                                                     href="https://openaq.org/about/legal/">Legal &amp; Policies</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <a href="https://citymind.top"
+           class="btn btn-primary donate-btn js-header-donate-btn">About US</a></div>
+</header>
+
+<!-- Map Area -->
 <div id="map"></div>
-<script>
-    mapboxgl.accessToken = 'pk.eyJ1Ijoic2lydXpob25nIiwiYSI6ImNsamJpNXdvcTFoc24zZG14NWU5azdqcjMifQ.W_2t66prRsaq8lZMSdfKzg';
-    const map = new mapboxgl.Map({
-        container: 'map', // container ID
-        style: 'mapbox://styles/siruzhong/clmr3ruds027p01pj91ajfoif', // style URL
-        center: [116.173553, 40.09068], // starting position [lng, lat]
-        zoom: 9 // starting zoom
-    });
 
+<!-- Mapbox Script -->
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+<link rel="stylesheet"
+      href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
+      type="text/css">
 
-    var popup = new mapboxgl.Popup({
-        closeOnClick: false,
-        closeButton: false,
-    });
-
-    map.on('mouseenter', '1085-stations-1cyyg4', function (e) {
-        var clickedData = e.features[0].properties;
-
-        // 下面的代码将用于显示数据，例如使用一个弹出框
-        popup
-            .setLngLat(e.lngLat)
-            .setHTML(`
-                <div class="popup-header">
-                    ${clickedData.name_Chinese} (${clickedData.name_Pinyin})
-                </div>
-                <div class="popup-body">
-                    <p><strong>District ID:</strong> ${clickedData.district_id}</p>
-                    <p><strong>Latitude:</strong> ${clickedData.latitude}</p>
-                    <p><strong>Longitude:</strong> ${clickedData.longitude}</p>
-                </div>
-            `)
-            .addTo(map);
-
-        map.getCanvas().style.cursor = 'pointer';  // 使用默认的箭头鼠标样式
-    });
-
-    map.on('mouseleave', '1085-stations-1cyyg4', function () {
-        map.getCanvas().style.cursor = ''; // 将鼠标样式恢复为默认
-        popup.remove(); // 移除弹出框
-    });
-
-
-</script>
-
+<script src="js/main.js"></script>
 </body>
 </html>
