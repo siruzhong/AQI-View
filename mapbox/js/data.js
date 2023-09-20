@@ -1084,3 +1084,38 @@ const station_data = 'district_id,longitude,latitude,name_Chinese,name_Pinyin\n'
     '38406,109.49363999999998,18.22053,鹿回头站,Luhuitouzhan\n' +
     '38406,109.620378,18.224494,亚龙湾站,Yalongwanzhan\n' +
     '38414,110.348611,19.68225,定安县自来水公司站,Dinganxianzilaishuigongsizhan\n'
+
+
+function generateRandomData() {
+    return {
+        pm25: getRandomInt(0, 500),          // PM2.5的范围: 0-500 μg/m³
+        pm10: getRandomInt(0, 1000),         // PM10的范围: 0-1000 μg/m³
+        no2: getRandomInt(0, 200),           // NO2的范围: 0-200 ppb
+        co: getRandomInt(0, 10),             // CO的范围: 0-10 ppm
+        o3: getRandomInt(0, 500),            // O3的范围: 0-500 ppb
+        so2: getRandomInt(0, 500),           // SO2的范围: 0-500 ppb
+        rainfall: getRandomFloat(0, 50),     // 降雨量的范围: 0-50 mm
+        temperature: getRandomInt(-30, 50),  // 温度的范围: -30-50 °C
+        pressure: getRandomInt(900, 1100),   // 气压的范围: 900-1100 hPa
+        humidity: getRandomInt(0, 100),      // 湿度的范围: 0-100 %
+        windSpeed: getRandomFloat(0, 30),    // 风速的范围: 0-30 m/s
+        windDirection: getRandomInt(0, 360), // 风向的范围: 0-360°
+        weather: getRandomWeather()          // 随机天气情况
+    };
+}
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRandomFloat(min, max) {
+    return (Math.random() * (max - min) + min).toFixed(2);
+}
+
+function getRandomWeather() {
+    const weathers = ["晴", "多云", "阴", "雨", "雪", "雷", "雾"];
+    return weathers[getRandomInt(0, weathers.length - 1)];
+}
+
+// 测试
+console.log(generateRandomData());

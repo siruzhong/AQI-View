@@ -3318,6 +3318,7 @@ a.mapboxgl-ctrl-logo.mapboxgl-compact {
     flex-direction: column;
     align-items: flex-end;
     font-size: 10px;
+    margin: 5px;
 }
 
 .legend-text {

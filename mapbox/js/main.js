@@ -177,13 +177,63 @@ class AirQualityLegendControl {
     }
 }
 
+map.on('click', function (e) {
+    // 获取点击的经纬度
+    var lngLat = e.lngLat;
+
+    // 检查点击的经纬度是否在指定的范围内
+    if (isWithinBounds(lngLat)) {
+        // 使用经纬度查询数据
+        fetchDataForLocation(lngLat, function (data) {
+            // 创建一个信息窗口
+            new mapboxgl.Popup()
+                .setLngLat(lngLat)
+                .setHTML(generatePopupContent(data))  // 将数据转换为HTML格式
+                .addTo(map);
+        });
+    }
+});
+
+function isWithinBounds(lngLat) {
+    const minLng = 73.683851;
+    const maxLng = 135.383069;
+    const minLat = 18.424216;
+    const maxLat = 53.714166;
+
+    return lngLat.lng >= minLng && lngLat.lng <= maxLng && lngLat.lat >= minLat && lngLat.lat <= maxLat;
+}
+
+function fetchDataForLocation(lngLat, callback) {
+    // 这里我们使用generateRandomData来模拟真实的数据查询
+    var data = generateRandomData();
+    callback(data);
+}
+
+function generatePopupContent(data) {
+    return `
+        <div>
+            PM2.5: ${data.pm25} μg/m³ <br>
+            PM10: ${data.pm10} μg/m³ <br>
+            NO2: ${data.no2} ppb <br>
+            CO: ${data.co} ppm <br>
+            O3: ${data.o3} ppb <br>
+            SO2: ${data.so2} ppb <br>
+            Rainfall: ${data.rainfall} mm <br>
+            Temperature: ${data.temperature} °C <br>
+            Pressure: ${data.pressure} hPa <br>
+            Humidity: ${data.humidity} % <br>
+            Wind Speed: ${data.windSpeed} m/s <br>
+            Wind Direction: ${data.windDirection}° <br>
+            Weather: ${data.weather}
+        </div>
+    `;
+}
+
 // 创建一个新的控件实例
 const airQualityLegend = new AirQualityLegendControl();
 
-
 // 将控件添加到地图的右下角
 map.addControl(airQualityLegend, 'bottom-right');
-
 
 // Add zoom and rotation controls to the map.
 map.addControl(new mapboxgl.NavigationControl());
