@@ -164,9 +164,29 @@ map.addControl(
     })
 );
 
+class AirQualityLegendControl {
+    onAdd(map) {
+        this.map = map;
+        this.container = document.getElementById('airQualityLegend');
+        return this.container;
+    }
+
+    onRemove() {
+        this.container.parentNode.removeChild(this.container);
+        this.map = undefined;
+    }
+}
+
+// 创建一个新的控件实例
+const airQualityLegend = new AirQualityLegendControl();
+
+
+// 将控件添加到地图的右下角
+map.addControl(airQualityLegend, 'bottom-right');
+
+
 // Add zoom and rotation controls to the map.
 map.addControl(new mapboxgl.NavigationControl());
-
 
 // Add a scale control to the map
 map.addControl(new mapboxgl.ScaleControl());

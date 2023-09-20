@@ -14,7 +14,7 @@
 
 <header class="header">
     <div class="header-contents">
-        <a href="/" class="header-logo" aria-label="openaq logo">
+        <a href="#" class="header-logo" aria-label="openaq logo">
             <img class="small-logo" src="/mapbox/assets/logo.png">
         </a>
         <div class="spacer"></div>
@@ -59,6 +59,37 @@
 
 <!-- Map Area -->
 <div id="map"></div>
+
+<div id="airQualityLegend">
+    <div class="legend-container">
+        <div class="legend-texts">
+            <span class="legend-text">优</span>
+            <span class="legend-text">良</span>
+            <span class="legend-text">轻度污染</span>
+            <span class="legend-text">中度污染</span>
+            <span class="legend-text">重度污染</span>
+            <span class="legend-text">严重污染</span>
+        </div>
+        <div class="legend-bars">
+            <div class="legend-bar" style="background-color: #00FF00;"></div>
+            <div class="legend-bar" style="background-color: #FFFF00;"></div>
+            <div class="legend-bar" style="background-color: #FFA500;"></div>
+            <div class="legend-bar" style="background-color: #FF4500;"></div>
+            <div class="legend-bar" style="background-color: #FF0000;"></div>
+            <div class="legend-bar" style="background-color: #8B0000;"></div>
+        </div>
+        <div class="legend-ranges">
+            <span class="legend-range" style="margin-top: 1px;">0</span>
+            <span class="legend-range">50</span>
+            <span class="legend-range">100</span>
+            <span class="legend-range">150</span>
+            <span class="legend-range">200</span>
+            <span class="legend-range">300</span>
+            <span class="legend-range" style="margin-bottom: 1px;">500</span>
+        </div>
+    </div>
+</div>
+
 
 <!-- Mapbox Script -->
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
