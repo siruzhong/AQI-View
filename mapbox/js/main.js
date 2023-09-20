@@ -2,12 +2,63 @@
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2lydXpob25nIiwiYSI6ImNsamJpNXdvcTFoc24zZG14NWU5azdqcjMifQ.W_2t66prRsaq8lZMSdfKzg';
 const map = new mapboxgl.Map({
     container: 'map', // container ID
-    style: 'mapbox://styles/siruzhong/clmr3ruds027p01pj91ajfoif', // style URL
+    style: 'mapbox://styles/siruzhong/clmr3ruds027p01pj91ajfoif/draft', // style URL
     center: [116.173553, 40.09068], // starting position [lng, lat]
     zoom: 9 // starting zoom
 });
 
-// // Display map menus
+// 使用PapaParse将CSV转换为GeoJSON
+function csvToGeoJSON(csv) {
+    const geojson = {
+        type: 'FeatureCollection',
+        features: []
+    };
+
+    Papa.parse(csv, {
+        header: true,
+        skipEmptyLines: true,
+        complete: function (results) {
+            results.data.forEach(row => {
+                const feature = {
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point',
+                        coordinates: [parseFloat(row.longitude), parseFloat(row.latitude)]
+                    },
+                    properties: row
+                };
+                geojson.features.push(feature);
+            });
+        }
+    });
+
+    return geojson;
+}
+
+map.on('load', function () {
+    // Convert your CSV data to GeoJSON
+    const geojsonData = csvToGeoJSON(station_data);
+
+    // Add data source
+    map.addSource('stations', {
+        type: 'geojson',
+        data: geojsonData
+    });
+
+    // Add data layer
+    map.addLayer({
+        id: '1085-stations-1cyyg4',
+        type: 'circle',
+        source: 'stations',
+        paint: {
+            'circle-radius': 4,
+            'circle-color': '#64b4b9'
+        },
+    });
+});
+
+
+// Display map menus
 // const layerList = document.getElementById('menu');
 // const inputs = layerList.getElementsByTagName('input');
 //
@@ -118,4 +169,3 @@ map.addControl(new mapboxgl.ScaleControl());
 
 
 // https://docs.mapbox.com/mapbox-gl-js/example/data-join/
-
