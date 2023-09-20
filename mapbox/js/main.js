@@ -1,3 +1,4 @@
+// Display map
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2lydXpob25nIiwiYSI6ImNsamJpNXdvcTFoc24zZG14NWU5azdqcjMifQ.W_2t66prRsaq8lZMSdfKzg';
 const map = new mapboxgl.Map({
     container: 'map', // container ID
@@ -6,6 +7,16 @@ const map = new mapboxgl.Map({
     zoom: 9 // starting zoom
 });
 
+// // Display map menus
+// const layerList = document.getElementById('menu');
+// const inputs = layerList.getElementsByTagName('input');
+//
+// for (const input of inputs) {
+//     input.onclick = (layer) => {
+//         const layerId = layer.target.id;
+//         map.setStyle('mapbox://styles/mapbox/' + layerId);
+//     };
+// }
 
 var popup = new mapboxgl.Popup({
     closeOnClick: false,
@@ -32,15 +43,13 @@ map.on('mouseenter', '1085-stations-1cyyg4', function (e) {
     map.getCanvas().style.cursor = 'pointer';
 });
 
+// Remove data when mouseleave
 map.on('mouseleave', '1085-stations-1cyyg4', function () {
     map.getCanvas().style.cursor = '';
     popup.remove();
 });
 
-/* Given a query in the form "lng, lat" or "lat, lng"
-* returns the matching geographic coordinate(s)
-* as search results in carmen geojson format,
-* https://github.com/mapbox/carmen/blob/master/carmen-geojson.md */
+// Location search box
 const coordinatesGeocoder = function (query) {
     // Match anything which looks like
     // decimal degrees coordinate pair.
@@ -88,14 +97,25 @@ const coordinatesGeocoder = function (query) {
     return geocodes;
 };
 
-// Add the control to the map.
+// Add the location search box to the map.
 map.addControl(
     new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
         localGeocoder: coordinatesGeocoder,
         zoom: 4,
-        placeholder: 'Try: -40, 170',
+        placeholder: 'Search here ...',
         mapboxgl: mapboxgl,
         reverseGeocode: true
     })
 );
+
+// Add zoom and rotation controls to the map.
+map.addControl(new mapboxgl.NavigationControl());
+
+
+// Add a scale control to the map
+map.addControl(new mapboxgl.ScaleControl());
+
+
+// https://docs.mapbox.com/mapbox-gl-js/example/data-join/
+
