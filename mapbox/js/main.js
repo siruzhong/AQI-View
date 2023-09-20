@@ -61,16 +61,16 @@ map.on('load', function () {
     addStationsLayer(); // 当地图首次加载时，添加数据层
 });
 
-// Display map menus
-const layerList = document.getElementById('menu');
-const inputs = layerList.getElementsByTagName('input');
+// 获取所有的菜单项链接
+const styleLinks = document.querySelectorAll('.submenu__item a[data-style]');
 
-for (const input of inputs) {
-    input.onclick = (layer) => {
-        const layerId = layer.target.id;
-        map.setStyle('mapbox://styles/mapbox/' + layerId);
-        map.once('style.load', addStationsLayer); // 重新添加数据源和图层
-    };
+for (const link of styleLinks) {
+    link.addEventListener('click', function (e) {
+        e.preventDefault(); // 阻止默认的链接点击行为
+        const styleId = this.getAttribute('data-style');
+        map.setStyle('mapbox://styles/mapbox/' + styleId);
+        map.once('style.load', addStationsLayer); // 当样式加载完成后，重新添加数据层
+    });
 }
 
 var popup = new mapboxgl.Popup({

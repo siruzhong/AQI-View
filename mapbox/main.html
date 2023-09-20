@@ -26,42 +26,27 @@
                 </button>
             </label>
             <ul class="nav-list ">
-                <li><a class="nav__item nav__item--active explore-data-tab" href="https://explore.openaq.org">Explore
-                    the data (Beta)</a></li>
-                <li><a href="https://openaq.org/why-air-quality" class="nav__item air-quality-tab">Why air quality?</a>
+                <li>
+                    <a class="nav__item nav__item--active explore-data-tab"
+                       href="https://explore.openaq.org">Explore the data (Beta)</a>
                 </li>
-                <li><a href="https://openaq.org/why-open-data" class="nav__item open-data-tab">Why open data?</a></li>
-                <li><a href="https://openaq.org/partners" class="nav__item partners-tab">Partners</a></li>
                 <li class="dropdown">
-                    <a href="https://openaq.org/developers/platform-overview/" aria-haspopup="true" class="nav__item">Developers</a>
+                    <a href="#" aria-haspopup="true" class="nav__item">Map Styles</a>
                     <ul class="submenu" aria-label="submenu">
-                        <li class="submenu__item"><a class="nav__item api-overview-nav"
-                                                     href="https://openaq.org/developers/platform-overview/">Platform
-                            Overview</a></li>
-                        <li class="submenu__item"><a class="nav__item documentation-nav js-header-docs-link"
-                                                     href="https://docs.openaq.org">Developer Documentation</a></li>
-                        <li class="submenu__item"><a class="nav__item dev-use-case-nav"
-                                                     href="https://openaq.org/use-cases/developer/">Developer Use
-                            Cases</a></li>
-                        <li class="submenu__item"><a class="nav__item help-nav"
-                                                     href="https://openaq.org/developers/help/">Help</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown"><a href="https://openaq.org/about/" aria-haspopup="true"
-                                        class="nav__item">About</a>
-                    <ul class="submenu" aria-label="submenu">
-                        <li class="submenu__item"><a class="nav__item about-nav" href="https://openaq.org/about/">About
-                            Us</a></li>
-                        <li class="submenu__item"><a class="nav__item initiatives-nav"
-                                                     href="https://openaq.org/about/initiatives/">Initiatives</a></li>
-                        <li class="submenu__item"><a class="nav__item people-nav"
-                                                     href="https://openaq.org/about/people/">People</a></li>
-                        <li class="submenu__item"><a class="nav__item" href="https://openaq.org/about/blog">Blog</a>
+                        <li class="submenu__item">
+                            <a href="#" class="nav__item" data-style="satellite-streets-v12">Satellite Streets</a>
                         </li>
-                        <li class="submenu__item"><a class="nav__item use-cases-nav"
-                                                     href="https://openaq.org/use-cases/">Use Cases</a></li>
-                        <li class="submenu__item"><a class="nav__item reporting-nav"
-                                                     href="https://openaq.org/about/legal/">Legal &amp; Policies</a>
+                        <li class="submenu__item">
+                            <a href="#" class="nav__item" data-style="light-v11">Light</a>
+                        </li>
+                        <li class="submenu__item">
+                            <a href="#" class="nav__item" data-style="dark-v11">Dark</a>
+                        </li>
+                        <li class="submenu__item">
+                            <a href="#" class="nav__item" data-style="streets-v12">Streets</a>
+                        </li>
+                        <li class="submenu__item">
+                            <a href="#" class="nav__item" data-style="outdoors-v12">Outdoors</a>
                         </li>
                     </ul>
                 </li>
@@ -69,27 +54,11 @@
         </nav>
         <a href="https://citymind.top"
            class="btn btn-primary donate-btn js-header-donate-btn">About US</a></div>
+
 </header>
 
 <!-- Map Area -->
 <div id="map"></div>
-
-
-<!-- Map menu Area-->
-<div id="menu">
-    <input id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite" checked="checked">
-    <!-- See a list of Mapbox-hosted public styles at -->
-    <!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
-    <label for="satellite-streets-v12">satellite streets</label>
-    <input id="light-v11" type="radio" name="rtoggle" value="light">
-    <label for="light-v11">light</label>
-    <input id="dark-v11" type="radio" name="rtoggle" value="dark">
-    <label for="dark-v11">dark</label>
-    <input id="streets-v12" type="radio" name="rtoggle" value="streets">
-    <label for="streets-v12">streets</label>
-    <input id="outdoors-v12" type="radio" name="rtoggle" value="outdoors">
-    <label for="outdoors-v12">outdoors</label>
-</div>
 
 <!-- Mapbox Script -->
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
