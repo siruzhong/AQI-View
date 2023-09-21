@@ -209,49 +209,64 @@ function fetchDataForLocation(lngLat, callback) {
     callback(data);
 }
 
+function getPollutionLevel(pm25) {
+    if (pm25 <= 50) {
+        return {level: '优', color: '#00FF00'};
+    } else if (pm25 <= 100) {
+        return {level: '良', color: '#FFFF00'};
+    } else if (pm25 <= 150) {
+        return {level: '轻度污染', color: '#FFA500'};
+    } else if (pm25 <= 200) {
+        return {level: '中度污染', color: '#FF4500'};
+    } else if (pm25 <= 300) {
+        return {level: '重度污染', color: '#FF0000'};
+    } else {
+        return {level: '严重污染', color: '#8B0000'};
+    }
+}
+
+
 function generatePopupContent(data) {
+    // 然后在弹出框的HTML内容中加入该色柱和文本：
+    const pollution = getPollutionLevel(data.pm25);
+    const now = new Date();
+    const hours = now.getHours() > 12 ? now.getHours() - 12 : now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, '0');  // 保证分钟总是两位数
+    const amPm = now.getHours() >= 12 ? 'PM' : 'AM';
+    const formattedTime = `更新于 ${hours}:${minutes} ${amPm}`;
     return `
-        <div>
-            <div style="display: flex; align-items: center;">
-                PM2.5: 
-                <div style="width: 12px; height: 12px; margin: 0 5px; background-color: ${getColorForValue(data.pm25)}"></div>
-                ${data.pm25}
+        <div style="display: grid; grid-template-columns: auto 14px auto;">
+            <div style="grid-column: 1 / span 3; display: flex; align-items: center; justify-content: flex-start; margin: 0 0 8px 0">
+                <div style="width: 6px; height: 12px; background-color: ${pollution.color};"></div>
+                <div style="padding-left: 8px">${pollution.level}</div>
             </div>
-            <div style="display: flex; align-items: center;">
-                PM10: 
-                <div style="width: 12px; height: 12px; margin: 0 5px; background-color: ${getColorForValue(data.pm10)}"></div>
-                ${data.pm10}
-            </div>
-            <div style="display: flex; align-items: center;">
-                NO2: 
-                <div style="width: 12px; height: 12px; margin: 0 5px; background-color: ${getColorForValue(data.no2)}"></div>
-                ${data.no2}
-            </div>            
-            <div style="display: flex; align-items: center;">
-                CO: 
-                <div style="width: 12px; height: 12px; margin: 0 5px; background-color: ${getColorForValue(data.co)}"></div>
-                ${data.co}
-            </div>            
-            <div style="display: flex; align-items: center;">
-                O3: 
-                <div style="width: 12px; height: 12px; margin: 0 5px; background-color: ${getColorForValue(data.o3)}"></div>
-                ${data.o3}
-            </div>           
-            <div style="display: flex; align-items: center;">
-                SO2: 
-                <div style="width: 12px; height: 12px; margin: 0 5px; background-color: ${getColorForValue(data.so2)}"></div>
-                ${data.so2}
-            </div>
-            Rainfall: ${data.rainfall} mm <br>
-            Temperature: ${data.temperature} °C <br>
-            Pressure: ${data.pressure} hPa <br>
-            Humidity: ${data.humidity} % <br>
-            Wind Speed: ${data.windSpeed} m/s <br>
-            Wind Direction: ${data.windDirection}° <br>
-            Weather: ${data.weather}
+            ${generateIndicatorWithColorBox('PM2.5', data.pm25)}
+            ${generateIndicatorWithColorBox('PM10', data.pm10)}
+            ${generateIndicatorWithColorBox('NO2', data.no2)}
+            ${generateIndicatorWithColorBox('CO', data.co)}
+            ${generateIndicatorWithColorBox('O3', data.o3)}
+            ${generateIndicatorWithColorBox('SO2', data.so2)}
+            <div> Rainfall</div> <div><i style="margin: 5px 5px;" class="fas fa-cloud-rain"></i></div> <div style="padding-left: 12px">${data.rainfall} mm</div>
+            <div> Temperature</div> <div><i style="margin: 5px 5px;" class="fas fa-thermometer"></i></div> <div style="padding-left: 12px">${data.temperature} °C</div>
+            <div> Pressure</div> <div><i style="margin: 5px 5px;" class="fas fa-tachometer-alt"></i></div> <div style="padding-left: 12px">${data.pressure} hPa</div>
+            <div> Humidity</div> <div><i style="margin: 5px 5px;" class="fas fa-water"></i></div> <div style="padding-left: 12px">${data.humidity} %</div>
+            <div> Wind Speed</div> <div><i style="margin: 5px 5px;" class="fas fa-wind"></i></div> <div style="padding-left: 12px">${data.windSpeed} m/s</div>
+            <div> Wind Direction</div> <div><i style="margin: 5px 5px;" class="fas fa-location-arrow"></i></div> <div style="padding-left: 12px">${data.windDirection}°</div>
+            <div> Weather</div> <div><i style="margin: 5px 5px;" class="fas fa-smog"></i></div> <div style="padding-left: 12px">${data.weather}</div>
+            <div style="grid-column: 1 / span 2; color: steelblue; padding-top: 8px">${formattedTime}</div>
         </div>
     `;
 }
+
+function generateIndicatorWithColorBox(indicatorName, value) {
+    const color = getColorForValue(value);
+    return `
+        <div>${indicatorName}</div>
+        <div style="width: 12px; height: 12px; background-color: ${color}; margin: 5px 5px;"></div>
+        <div style="padding-left: 12px">${value}</div>
+    `;
+}
+
 
 function getColorForValue(value) {
     if (value <= 50) return '#00FF00';       // Green
@@ -261,7 +276,6 @@ function getColorForValue(value) {
     if (value <= 300) return '#FF0000';      // Red
     return '#8B0000';                        // Dark Red
 }
-
 
 // 创建一个新的控件实例
 const airQualityLegend = new AirQualityLegendControl();
