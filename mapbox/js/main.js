@@ -70,6 +70,7 @@ for (const link of styleLinks) {
         const styleId = this.getAttribute('data-style');
         map.setStyle('mapbox://styles/mapbox/' + styleId);
         map.once('style.load', addStationsLayer); // 当样式加载完成后，重新添加数据层
+        map.once('style.load', addHeapMap); // 当样式加载完成后，重新添加热力图层
     });
 }
 
