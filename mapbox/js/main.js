@@ -212,12 +212,36 @@ function fetchDataForLocation(lngLat, callback) {
 function generatePopupContent(data) {
     return `
         <div>
-            PM2.5: ${data.pm25} μg/m³ <br>
-            PM10: ${data.pm10} μg/m³ <br>
-            NO2: ${data.no2} ppb <br>
-            CO: ${data.co} ppm <br>
-            O3: ${data.o3} ppb <br>
-            SO2: ${data.so2} ppb <br>
+            <div style="display: flex; align-items: center;">
+                PM2.5: 
+                <div style="width: 12px; height: 12px; margin: 0 5px; background-color: ${getColorForValue(data.pm25)}"></div>
+                ${data.pm25}
+            </div>
+            <div style="display: flex; align-items: center;">
+                PM10: 
+                <div style="width: 12px; height: 12px; margin: 0 5px; background-color: ${getColorForValue(data.pm10)}"></div>
+                ${data.pm10}
+            </div>
+            <div style="display: flex; align-items: center;">
+                NO2: 
+                <div style="width: 12px; height: 12px; margin: 0 5px; background-color: ${getColorForValue(data.no2)}"></div>
+                ${data.no2}
+            </div>            
+            <div style="display: flex; align-items: center;">
+                CO: 
+                <div style="width: 12px; height: 12px; margin: 0 5px; background-color: ${getColorForValue(data.co)}"></div>
+                ${data.co}
+            </div>            
+            <div style="display: flex; align-items: center;">
+                O3: 
+                <div style="width: 12px; height: 12px; margin: 0 5px; background-color: ${getColorForValue(data.o3)}"></div>
+                ${data.o3}
+            </div>           
+            <div style="display: flex; align-items: center;">
+                SO2: 
+                <div style="width: 12px; height: 12px; margin: 0 5px; background-color: ${getColorForValue(data.so2)}"></div>
+                ${data.so2}
+            </div>
             Rainfall: ${data.rainfall} mm <br>
             Temperature: ${data.temperature} °C <br>
             Pressure: ${data.pressure} hPa <br>
@@ -228,6 +252,16 @@ function generatePopupContent(data) {
         </div>
     `;
 }
+
+function getColorForValue(value) {
+    if (value <= 50) return '#00FF00';       // Green
+    if (value <= 100) return '#FFFF00';      // Yellow
+    if (value <= 150) return '#FFA500';      // Orange
+    if (value <= 200) return '#FF4500';      // Light Red
+    if (value <= 300) return '#FF0000';      // Red
+    return '#8B0000';                        // Dark Red
+}
+
 
 // 创建一个新的控件实例
 const airQualityLegend = new AirQualityLegendControl();
