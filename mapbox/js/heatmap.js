@@ -1,50 +1,50 @@
 // 1. 数据离散化
 const latRange = [53.714166, 18.424216];
 const lngRange = [73.683851, 135.383069];
-const gridSize = 1;
+let gridSize = 1;
 const gridData = [];
 
-for (let lat = latRange[1]; lat <= latRange[0]; lat += gridSize) {
-    for (let lng = lngRange[0]; lng <= lngRange[1]; lng += gridSize) {
-        const pm25Value = getPM25Value(lng, lat);
-        gridData.push({
-            type: 'Feature',
-            geometry: {
-                type: 'Polygon',
-                coordinates: [
-                    [
-                        [lng, lat],
-                        [lng + gridSize, lat],
-                        [lng + gridSize, lat - gridSize],
-                        [lng, lat - gridSize],
-                        [lng, lat]
+function addGridData() {
+    for (let lat = latRange[1]; lat <= latRange[0]; lat += gridSize) {
+        for (let lng = lngRange[0]; lng <= lngRange[1]; lng += gridSize) {
+            const pm25Value = getPM25Value(lng, lat);
+            gridData.push({
+                type: 'Feature',
+                geometry: {
+                    type: 'Polygon',
+                    coordinates: [
+                        [
+                            [lng, lat],
+                            [lng + gridSize, lat],
+                            [lng + gridSize, lat - gridSize],
+                            [lng, lat - gridSize],
+                            [lng, lat]
+                        ]
                     ]
-                ]
-            },
-            properties: {
-                pm25: pm25Value
-            }
-        });
+                },
+                properties: {
+                    pm25: pm25Value
+                }
+            });
+        }
     }
 }
 
-// 2. 创建GeoJSON数据源
-const geojson = {
-    type: 'FeatureCollection',
-    features: gridData
-};
-
-// 3. 在地图加载后添加fill图层
-map.on('load', function () {
-    addHeapMap(); // 当地图首次加载时，添加数据层
-});
-
-function addHeapMap() {
+// 2. 创建 GeoJSON 数据源
+function createGeoJSONSource() {
     map.addSource('pm25', {
         type: 'geojson',
-        data: geojson
+        data: {
+            type: 'FeatureCollection',
+            features: gridData
+        }
     });
+}
 
+// 3. 添加 Heatmap 图层
+function addHeatmapLayer() {
+    addGridData()
+    createGeoJSONSource()
     map.addLayer({
         id: 'pm25-fill',
         type: 'fill',
@@ -67,8 +67,14 @@ function addHeapMap() {
     });
 }
 
-function getPM25Value(lng, lat) {
-    return Math.random() * 300;
+// 4. 更新数据和图层
+function updateDataAndLayer() {
+    gridData.length = 0; // 清空旧数据
+    addGridData(); // 添加新数据
+    map.getSource('pm25').setData({ // 更新源数据
+        type: 'FeatureCollection',
+        features: gridData
+    });
 }
 
 document.getElementById('heatmapToggle').addEventListener('click', function () {
@@ -78,4 +84,30 @@ document.getElementById('heatmapToggle').addEventListener('click', function () {
     } else {
         map.setLayoutProperty('pm25-fill', 'visibility', 'visible');
     }
+});
+
+// 初始化时创建数据源和图层
+map.on('load', function () {
+    addHeatmapLayer();
+});
+
+
+function getPM25Value(lng, lat) {
+    return Math.random() * 300;
+}
+
+// 点击不同尺度的 heatmap 按钮时，更新数据和图层
+document.getElementById('heatmap1km').addEventListener('click', function () {
+    gridSize = 1;
+    updateDataAndLayer();
+});
+
+document.getElementById('heatmap2km').addEventListener('click', function () {
+    gridSize = 2;
+    updateDataAndLayer();
+});
+
+document.getElementById('heatmap3km').addEventListener('click', function () {
+    gridSize = 3;
+    updateDataAndLayer();
 });
