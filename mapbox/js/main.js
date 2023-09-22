@@ -4,7 +4,8 @@ const map = new mapboxgl.Map({
     container: 'map', // container ID
     style: 'mapbox://styles/siruzhong/clmr3ruds027p01pj91ajfoif/draft', // style URL
     center: [116.173553, 40.09068], // starting position [lng, lat]
-    zoom: 9 // starting zoom
+    zoom: 6, // starting zoom
+    projection: 'naturalEarth' // starting projection
 });
 
 map.on('load', function () {

@@ -1124,14 +1124,20 @@ function addStationsLayer() {
         data: geojsonData
     });
 
+    map.loadImage('assets/station.png', (error, image) => {
+        if (error) throw error
+        if (!map.hasImage('station')) map.addImage('station', image)
+    })
+
     // Add data layer
     map.addLayer({
         id: '1085-stations-1cyyg4',
-        type: 'circle',
+        type: 'symbol',
         source: 'stations',
-        paint: {
-            'circle-radius': 4,
-            'circle-color': '#64b4b9'
+        layout: {
+            'icon-image': 'station', // 替换成你的自定义图标名称
+            'icon-size': 0.08, // 调整图标大小
+            'icon-allow-overlap': true // 允许图标重叠
         },
     });
 }
