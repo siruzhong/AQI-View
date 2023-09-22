@@ -1118,28 +1118,54 @@ function addStationsLayer() {
     // Convert your CSV data to GeoJSON
     const geojsonData = csvToGeoJSON(station_data);
 
+    // Generate random pm25 values and add them to geojsonData
+    geojsonData.features.forEach(feature => {
+        // Generate a random pm25 value between 0 and 600
+        feature.properties.pm25 = getRandomInt(0, 600)
+    });
+
+    console.log(geojsonData)
+
     // Add data source
     map.addSource('stations', {
         type: 'geojson',
         data: geojsonData
     });
 
-    map.loadImage('assets/station.png', (error, image) => {
-        if (error) throw error
-        if (!map.hasImage('station')) map.addImage('station', image)
-    })
 
-    // Add data layer
+
+    // Add data layer with dynamic circle colors based on PM2.5 values
     map.addLayer({
         id: '1085-stations-1cyyg4',
-        type: 'symbol',
+        type: 'circle',
         source: 'stations',
-        layout: {
-            'icon-image': 'station', // 替换成你的自定义图标名称
-            'icon-size': 0.08, // 调整图标大小
-            'icon-allow-overlap': true // 允许图标重叠
+        paint: {
+            'circle-radius': 5,
+            'circle-color': [
+                'case',
+                ['<', ['get', 'pm25'], 12], 'rgb(206, 199, 255)',
+                ['<', ['get', 'pm25'], 36], 'rgb(164, 151, 253)',
+                ['<', ['get', 'pm25'], 56], 'rgb(143, 129, 238)',
+                ['<', ['get', 'pm25'], 151], 'rgb(120, 103, 235)',
+                ['<', ['get', 'pm25'], 251], 'rgb(106, 92, 216)',
+                'rgb(88, 77, 174)'
+            ],
+            'circle-stroke-color': 'white', // 设置边缘为白色
+            'circle-stroke-width': 1 // 设置边缘宽度为1像素
         },
     });
+
+    // map.addLayer({
+    //     id: '1085-stations-1cyyg4',
+    //     type: 'circle',
+    //     source: 'stations',
+    //     paint: {
+    //         'circle-radius': 4,
+    //         'circle-color': '#64b4b9'
+    //     },
+    // });
+
+
 }
 
 function generateRandomData() {
