@@ -58,19 +58,41 @@ map.on('mouseleave', '1085-stations-1cyyg4', function () {
 });
 
 
-map.on('click', function (e) {
-    // 获取点击的经纬度
-    var lngLat = e.lngLat;
+// 创建一个标志来跟踪是否启用了点击事件
+let isClickEnabled = false;
 
-    // 检查点击的经纬度是否在指定的范围内
-    if (isWithinBounds(lngLat)) {
-        // 使用经纬度查询数据
-        fetchDataForLocation(lngLat, function (data) {
-            // 创建一个信息窗口
-            new mapboxgl.Popup()
-                .setLngLat(lngLat)
-                .setHTML(generatePopupContent(data))  // 将数据转换为HTML格式
-                .addTo(map);
-        });
+// 获取 <a> 标签元素
+const interpolationToggle = document.getElementById('interpolation');
+
+// 初始状态下显示 "Enable Interpolation"
+interpolationToggle.textContent = 'Enable Interpolation';
+
+// 点击 <a> 标签来切换点击事件的启用状态
+interpolationToggle.addEventListener('click', function (e) {
+    e.preventDefault(); // 阻止<a>标签的默认行为
+    isClickEnabled = !isClickEnabled; // 切换标志状态
+
+    // 根据 isClickEnabled 的状态更新文本内容
+    interpolationToggle.textContent = isClickEnabled ? 'Disable Interpolation' : 'Enable Interpolation';
+});
+
+map.on('click', function (e) {
+    if (isClickEnabled) {
+        // 获取点击的经纬度
+        var lngLat = e.lngLat;
+
+        // 检查点击的经纬度是否在指定的范围内
+        if (isWithinBounds(lngLat)) {
+            // 使用经纬度查询数据
+            fetchDataForLocation(lngLat, function (data) {
+                // 创建一个信息窗口
+                new mapboxgl.Popup()
+                    .setLngLat(lngLat)
+                    .setHTML(generatePopupContent(data))  // 将数据转换为HTML格式
+                    .addTo(map);
+            });
+        }
     }
 });
+
+
