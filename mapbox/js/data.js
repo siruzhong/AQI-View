@@ -1115,43 +1115,62 @@ function csvToGeoJSON(csv) {
 }
 
 function addStationsLayer() {
-    // Convert your CSV data to GeoJSON
-    const geojsonData = csvToGeoJSON(station_data);
+    // Read the JSON file containing the new data
+    fetch('../mapbox/data/hour_data/hour_data.json')
+        .then(response => response.json())
+        .then(hourData => {
+            // Convert your CSV data to GeoJSON
+            const geojsonData = csvToGeoJSON(station_data);
 
-    // Generate random pm25 values and add them to geojsonData
-    geojsonData.features.forEach(feature => {
-        // Generate a random pm25 value between 0 and 600
-        feature.properties.pm25 = getRandomInt(0, 600)
-    });
+            // Update the pm25 values in geojsonData with values from the new data
+            geojsonData.features.forEach((feature, index) => {
+                feature.properties.pm25 = hourData[index].air["PM2.5"];
+                feature.properties.pm10 = hourData[index].air["PM10"];
+                feature.properties.no2 = hourData[index].air["NO2"];
+                feature.properties.co = hourData[index].air["CO"];
+                feature.properties.o3 = hourData[index].air["O3"];
+                feature.properties.so2 = hourData[index].air["SO2"];
+                feature.properties.rainfall = hourData[index].tmp["Rainfall"];
+                feature.properties.temperature = hourData[index].tmp["Temperature"];
+                feature.properties.pressure = hourData[index].tmp["Pressure"];
+                feature.properties.humidity = hourData[index].tmp["Humidity"];
+                feature.properties.ws = hourData[index].tmp["Wind Speed"];
+                feature.properties.wd = hourData[index].tmp["Wind Direction"];
+                feature.properties.weather = hourData[index].tmp["Weather"];
+            });
 
-    console.log(geojsonData)
+            console.log(geojsonData)
 
-    // Add data source
-    map.addSource('stations', {
-        type: 'geojson',
-        data: geojsonData
-    });
+            // Add data source
+            map.addSource('stations', {
+                type: 'geojson',
+                data: geojsonData
+            });
 
-    // Add data layer with dynamic circle colors based on PM2.5 values
-    map.addLayer({
-        id: '1085-stations-1cyyg4',
-        type: 'circle',
-        source: 'stations',
-        paint: {
-            'circle-radius': 5,
-            'circle-color': [
-                'case',
-                ['<', ['get', 'pm25'], 12], 'rgb(206, 199, 255)',
-                ['<', ['get', 'pm25'], 36], 'rgb(164, 151, 253)',
-                ['<', ['get', 'pm25'], 56], 'rgb(143, 129, 238)',
-                ['<', ['get', 'pm25'], 151], 'rgb(120, 103, 235)',
-                ['<', ['get', 'pm25'], 251], 'rgb(106, 92, 216)',
-                'rgb(88, 77, 174)'
-            ],
-            'circle-stroke-color': 'white', // 设置边缘为白色
-            'circle-stroke-width': 1 // 设置边缘宽度为1像素
-        },
-    });
+            // Add data layer with dynamic circle colors based on PM2.5 values
+            map.addLayer({
+                id: '1085-stations-1cyyg4',
+                type: 'circle',
+                source: 'stations',
+                paint: {
+                    'circle-radius': 5,
+                    'circle-color': [
+                        'case',
+                        ['<', ['get', 'pm25'], 12], 'rgb(206, 199, 255)',
+                        ['<', ['get', 'pm25'], 36], 'rgb(164, 151, 253)',
+                        ['<', ['get', 'pm25'], 56], 'rgb(143, 129, 238)',
+                        ['<', ['get', 'pm25'], 151], 'rgb(120, 103, 235)',
+                        ['<', ['get', 'pm25'], 251], 'rgb(106, 92, 216)',
+                        'rgb(88, 77, 174)'
+                    ],
+                    'circle-stroke-color': 'white',
+                    'circle-stroke-width': 1
+                },
+            });
+        })
+        .catch(error => {
+            console.error('Error reading JSON file:', error);
+        });
 }
 
 function generateRandomData() {

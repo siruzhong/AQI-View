@@ -44,6 +44,18 @@ map.on('mouseenter', '1085-stations-1cyyg4', function (e) {
                     <p><strong>District ID:</strong> ${clickedData.district_id}</p>
                     <p><strong>Latitude:</strong> ${clickedData.latitude}</p>
                     <p><strong>Longitude:</strong> ${clickedData.longitude}</p>
+                    <p><strong>Pm2.5:</strong> ${clickedData.pm25}</p>
+                    <p><strong>NO2:</strong> ${clickedData.no2}</p>
+                    <p><strong>CO:</strong> ${clickedData.co}</p>
+                    <p><strong>O3:</strong> ${clickedData.o3}</p>
+                    <p><strong>SO2:</strong> ${clickedData.so2}</p>
+                    <p><strong>Rainfall:</strong> ${clickedData.rainfall}</p>
+                    <p><strong>Temperature:</strong> ${clickedData.temperature}</p>
+                    <p><strong>Pressure:</strong> ${clickedData.pressure}</p>
+                    <p><strong>Humidity:</strong> ${clickedData.humidity}</p>
+                    <p><strong>Wind Speed:</strong> ${clickedData.ws}</p>
+                    <p><strong>Wind Direction:</strong> ${clickedData.wd}</p>
+                    <p><strong>Weather:</strong> ${clickedData.weather}</p>
                 </div>
             `)
         .addTo(map);
