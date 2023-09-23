@@ -81,8 +81,10 @@ document.getElementById('heatmapToggle').addEventListener('click', function () {
     const currentVisibility = map.getLayoutProperty('pm25-fill', 'visibility');
     if (currentVisibility === 'visible') {
         map.setLayoutProperty('pm25-fill', 'visibility', 'none');
+        map.setLayoutProperty('1085-stations-1cyyg4', 'visibility', 'visible');
     } else {
         map.setLayoutProperty('pm25-fill', 'visibility', 'visible');
+        map.setLayoutProperty('1085-stations-1cyyg4', 'visibility', 'none');
     }
 });
 

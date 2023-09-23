@@ -1132,8 +1132,6 @@ function addStationsLayer() {
         data: geojsonData
     });
 
-
-
     // Add data layer with dynamic circle colors based on PM2.5 values
     map.addLayer({
         id: '1085-stations-1cyyg4',
@@ -1154,18 +1152,6 @@ function addStationsLayer() {
             'circle-stroke-width': 1 // 设置边缘宽度为1像素
         },
     });
-
-    // map.addLayer({
-    //     id: '1085-stations-1cyyg4',
-    //     type: 'circle',
-    //     source: 'stations',
-    //     paint: {
-    //         'circle-radius': 4,
-    //         'circle-color': '#64b4b9'
-    //     },
-    // });
-
-
 }
 
 function generateRandomData() {
@@ -1271,7 +1257,6 @@ function generateIndicatorWithColorBox(indicatorName, value) {
         <div style="padding-left: 12px">${value}</div>
     `;
 }
-
 
 function getColorForValue(value) {
     if (value <= 50) return '#00FF00';       // Green
