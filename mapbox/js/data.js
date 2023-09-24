@@ -1134,9 +1134,9 @@ function addStationsLayer() {
                 feature.properties.temperature = hourData[index].tmp["Temperature"];
                 feature.properties.pressure = hourData[index].tmp["Pressure"];
                 feature.properties.humidity = hourData[index].tmp["Humidity"];
-                feature.properties.ws = hourData[index].tmp["Wind Speed"];
-                feature.properties.wd = hourData[index].tmp["Wind Direction"];
-                feature.properties.weather = hourData[index].tmp["Weather"];
+                feature.properties.windSpeed = hourData[index].tmp["Wind Speed"];
+                feature.properties.windDirection = getWindDirectionDescription(hourData[index].tmp["Wind Direction"]);
+                feature.properties.weather = getWeatherDescription(hourData[index].tmp["Weather"]);
             });
 
             console.log(geojsonData)
@@ -1181,13 +1181,13 @@ function generateRandomData() {
         co: getRandomInt(0, 10),             // CO的范围: 0-10 ppm
         o3: getRandomInt(0, 500),            // O3的范围: 0-500 ppb
         so2: getRandomInt(0, 500),           // SO2的范围: 0-500 ppb
-        rainfall: getRandomFloat(0, 50),     // 降雨量的范围: 0-50 mm
+        rainfall: getRandomInt(0, 50),     // 降雨量的范围: 0-50 mm
         temperature: getRandomInt(-30, 50),  // 温度的范围: -30-50 °C
         pressure: getRandomInt(900, 1100),   // 气压的范围: 900-1100 hPa
         humidity: getRandomInt(0, 100),      // 湿度的范围: 0-100 %
-        windSpeed: getRandomFloat(0, 30),    // 风速的范围: 0-30 m/s
-        windDirection: getRandomInt(0, 360), // 风向的范围: 0-360°
-        weather: getRandomWeather()          // 随机天气情况
+        windSpeed: getRandomInt(0, 30),    // 风速的范围: 0-30 m/s
+        windDirection: getWeatherDescription(0, 16), // 风向的范围: 0-360°
+        weather: getWindDirectionDescription(getRandomInt(0, 4))          // 随机天气情况
     };
 }
 
@@ -1199,9 +1199,72 @@ function getRandomFloat(min, max) {
     return (Math.random() * (max - min) + min).toFixed(2);
 }
 
-function getRandomWeather() {
-    const weathers = ["晴", "多云", "阴", "雨", "雪", "雷", "雾"];
-    return weathers[getRandomInt(0, weathers.length - 1)];
+function getWindDirectionDescription(windDirection) {
+    switch (windDirection) {
+        case 0:
+            return "No wind";
+        case 1:
+            return "East wind";
+        case 2:
+            return "West wind";
+        case 3:
+            return "South wind";
+        case 4:
+            return "North wind";
+        case 9:
+            return "No fixed wind direction";
+        case 13:
+            return "South East";
+        case 14:
+            return "North East";
+        case 23:
+            return "South West";
+        case 24:
+            return "North West";
+        default:
+            return "Unknown";
+    }
+}
+
+function getWeatherDescription(weatherClass) {
+    switch (weatherClass) {
+        case 0:
+            return "Sunny";
+        case 1:
+            return "Cloudy";
+        case 2:
+            return "Overcast";
+        case 3:
+            return "Rainy";
+        case 4:
+            return "Sprinkle";
+        case 5:
+            return "Moderate Rain";
+        case 6:
+            return "Heavy Rain";
+        case 7:
+            return "Rainstorm";
+        case 8:
+            return "Thunderstorm";
+        case 9:
+            return "Freezing Rain";
+        case 10:
+            return "Snowy";
+        case 11:
+            return "Light Snow";
+        case 12:
+            return "Moderate Snow";
+        case 13:
+            return "Heavy Snow";
+        case 14:
+            return "Foggy";
+        case 15:
+            return "Sandstorm";
+        case 16:
+            return "Dusty";
+        default:
+            return "Unknown";
+    }
 }
 
 // 测试
@@ -1256,11 +1319,11 @@ function generatePopupContent(data) {
             ${generateIndicatorWithColorBox('CO', data.co)}
             ${generateIndicatorWithColorBox('O3', data.o3)}
             ${generateIndicatorWithColorBox('SO2', data.so2)}
-            <div> Rainfall</div> <div><i style="margin: 5px 5px;" class="fas fa-cloud-rain"></i></div> <div style="padding-left: 12px">${data.rainfall} mm</div>
-            <div> Temperature</div> <div><i style="margin: 5px 5px;" class="fas fa-thermometer"></i></div> <div style="padding-left: 12px">${data.temperature} °C</div>
-            <div> Pressure</div> <div><i style="margin: 5px 5px;" class="fas fa-tachometer-alt"></i></div> <div style="padding-left: 12px">${data.pressure} hPa</div>
-            <div> Humidity</div> <div><i style="margin: 5px 5px;" class="fas fa-water"></i></div> <div style="padding-left: 12px">${data.humidity} %</div>
-            <div> Wind Speed</div> <div><i style="margin: 5px 5px;" class="fas fa-wind"></i></div> <div style="padding-left: 12px">${data.windSpeed} m/s</div>
+            <div> Rainfall</div> <div><i style="margin: 5px 5px;" class="fas fa-cloud-rain"></i></div> <div style="padding-left: 12px">${data.rainfall.toFixed(2)} mm</div>
+            <div> Temperature</div> <div><i style="margin: 5px 5px;" class="fas fa-thermometer"></i></div> <div style="padding-left: 12px">${data.temperature.toFixed(2)} °C</div>
+            <div> Pressure</div> <div><i style="margin: 5px 5px;" class="fas fa-tachometer-alt"></i></div> <div style="padding-left: 12px">${data.pressure.toFixed(2)} hPa</div>
+            <div> Humidity</div> <div><i style="margin: 5px 5px;" class="fas fa-water"></i></div> <div style="padding-left: 12px">${data.humidity.toFixed(2)} %</div>
+            <div> Wind Speed</div> <div><i style="margin: 5px 5px;" class="fas fa-wind"></i></div> <div style="padding-left: 12px">${data.windSpeed.toFixed(2)} m/s</div>
             <div> Wind Direction</div> <div><i style="margin: 5px 5px;" class="fas fa-location-arrow"></i></div> <div style="padding-left: 12px">${data.windDirection}°</div>
             <div> Weather</div> <div><i style="margin: 5px 5px;" class="fas fa-smog"></i></div> <div style="padding-left: 12px">${data.weather}</div>
             <div style="grid-column: 1 / span 2; color: steelblue; padding-top: 8px">${formattedTime}</div>
