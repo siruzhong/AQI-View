@@ -1,13 +1,16 @@
-// 1. 数据离散化
+// 定义经纬度范围
 const latRange = [53.714166, 18.424216];
 const lngRange = [73.683851, 135.383069];
+
+// 初始化格网大小和格网数据数组
 let gridSize = 1;
 const gridData = [];
 
+// 添加格网数据
 function addGridData() {
     for (let lat = latRange[1]; lat <= latRange[0]; lat += gridSize) {
         for (let lng = lngRange[0]; lng <= lngRange[1]; lng += gridSize) {
-            const pm25Value = getPM25Value(lng, lat);
+            const pm25Value = Math.random() * 300;
             gridData.push({
                 type: 'Feature',
                 geometry: {
@@ -30,7 +33,7 @@ function addGridData() {
     }
 }
 
-// 2. 创建 GeoJSON 数据源
+// 创建 GeoJSON 数据源
 function createGeoJSONSource() {
     map.addSource('pm25', {
         type: 'geojson',
@@ -41,10 +44,10 @@ function createGeoJSONSource() {
     });
 }
 
-// 3. 添加 Heatmap 图层
+// 添加 Heatmap 图层
 function addHeatmapLayer() {
-    addGridData()
-    createGeoJSONSource()
+    addGridData(); // 添加格网数据
+    createGeoJSONSource(); // 创建 GeoJSON 数据源
     map.addLayer({
         id: 'pm25-fill',
         type: 'fill',
@@ -62,21 +65,22 @@ function addHeatmapLayer() {
             'fill-opacity': 0.7
         },
         layout: {
-            'visibility': 'none'  // 设置为不可见
+            'visibility': 'none'  // 初始设置为不可见
         }
     });
 }
 
-// 4. 更新数据和图层
+// 更新数据和图层
 function updateDataAndLayer() {
     gridData.length = 0; // 清空旧数据
     addGridData(); // 添加新数据
-    map.getSource('pm25').setData({ // 更新源数据
+    map.getSource('pm25').setData({ // 更新数据源
         type: 'FeatureCollection',
         features: gridData
     });
 }
 
+// 点击切换 heatmap 可见性按钮时的事件监听器
 document.getElementById('heatmapToggle').addEventListener('click', function () {
     const currentVisibility = map.getLayoutProperty('pm25-fill', 'visibility');
     if (currentVisibility === 'visible') {
@@ -92,11 +96,6 @@ document.getElementById('heatmapToggle').addEventListener('click', function () {
 map.on('load', function () {
     addHeatmapLayer();
 });
-
-
-function getPM25Value(lng, lat) {
-    return Math.random() * 300;
-}
 
 // 点击不同尺度的 heatmap 按钮时，更新数据和图层
 document.getElementById('heatmap1km').addEventListener('click', function () {

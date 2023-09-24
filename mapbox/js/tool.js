@@ -1,7 +1,6 @@
-// Location search box
+// 定义坐标地理编码器
 const coordinatesGeocoder = function (query) {
-    // Match anything which looks like
-    // decimal degrees coordinate pair.
+    // 匹配任何看起来像十进制度数坐标对的输入
     const matches = query.match(
         /^[ ]*(?:Lat: )?(-?\d+\.?\d*)[, ]+(?:Lng: )?(-?\d+\.?\d*)[ ]*$/i
     );
@@ -9,6 +8,7 @@ const coordinatesGeocoder = function (query) {
         return null;
     }
 
+    // 构建坐标特性
     function coordinateFeature(lng, lat) {
         return {
             center: [lng, lat],
@@ -28,17 +28,17 @@ const coordinatesGeocoder = function (query) {
     const geocodes = [];
 
     if (coord1 < -90 || coord1 > 90) {
-        // must be lng, lat
+        // 应该是 lng, lat
         geocodes.push(coordinateFeature(coord1, coord2));
     }
 
     if (coord2 < -90 || coord2 > 90) {
-        // must be lat, lng
+        // 应该是 lat, lng
         geocodes.push(coordinateFeature(coord2, coord1));
     }
 
     if (geocodes.length === 0) {
-        // else could be either lng, lat or lat, lng
+        // 否则可以是 lng, lat 或 lat, lng 的任何一个
         geocodes.push(coordinateFeature(coord1, coord2));
         geocodes.push(coordinateFeature(coord2, coord1));
     }
@@ -46,7 +46,7 @@ const coordinatesGeocoder = function (query) {
     return geocodes;
 };
 
-// Add the location search box to the map.
+// 将位置搜索框添加到地图
 map.addControl(
     new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
@@ -58,6 +58,7 @@ map.addControl(
     })
 );
 
+// 定义空气质量图例控件
 class AirQualityLegendControl {
     onAdd(map) {
         this.map = map;
@@ -71,15 +72,11 @@ class AirQualityLegendControl {
     }
 }
 
-// 创建一个新的控件实例
-const airQualityLegend = new AirQualityLegendControl();
+// 将空气质量图例控件添加到地图的右下角
+map.addControl(new AirQualityLegendControl(), 'bottom-right');
 
-// 将控件添加到地图的右下角
-map.addControl(airQualityLegend, 'bottom-right');
-
-
-// Add zoom and rotation controls to the map.
+// 将缩放和旋转控件添加到地图
 map.addControl(new mapboxgl.NavigationControl());
 
-// Add a scale control to the map
+// 将比例尺控件添加到地图
 map.addControl(new mapboxgl.ScaleControl());
