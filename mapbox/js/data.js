@@ -40,11 +40,11 @@ function csvToGeoJSON(fileUrl, callback) {
 // 添加站点数据图层
 function addStationsLayer() {
     // 读取包含新数据的JSON文件
-    fetch('../mapbox/data/hour_data/hour_data.json')
+    fetch('./data/hour_data/hour_data.json')
         .then(response => response.json())
         .then(hourData => {
             // 将CSV数据转换为GeoJSON
-            csvToGeoJSON('../mapbox/data/1085_stations.csv', (error, geojsonData) => {
+            csvToGeoJSON('./data/1085_stations.csv', (error, geojsonData) => {
                 if (error) {
                     console.error('Error:', error);
                 } else {
