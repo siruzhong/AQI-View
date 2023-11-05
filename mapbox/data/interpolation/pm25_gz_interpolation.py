@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 from scipy.interpolate import Rbf
 
-GUANGZHOU_TOP_LEFT = (113.2615, 23.5655)  # Example: (longitude, latitude)
-GUANGZHOU_BOTTOM_RIGHT = (113.6771, 22.5200)
+GUANGZHOU_TOP_LEFT = (111.969831,23.962843)  # Example: (longitude, latitude)
+GUANGZHOU_BOTTOM_RIGHT = (114.738385,22.265389)
 
 
 def load_station_data(station_file):
