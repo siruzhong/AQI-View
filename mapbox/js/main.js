@@ -4,7 +4,7 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoic2lydXpob25nIiwiYSI6ImNsamJpNXdvcTFoc24zZG14N
 // 创建地图
 const map = new mapboxgl.Map({
     container: 'map', // 地图容器的ID
-    style: 'mapbox://styles/siruzhong/clmr3ruds027p01pj91ajfoif/draft', // 地图样式的URL
+    style: 'mapbox://styles/siruzhong/clmr3ruds027p01pj91ajfoif', // 地图样式的URL
     center: [116.173553, 40.09068], // 初始位置 [经度, 纬度]
     zoom: 6, // 初始缩放级别
     projection: 'mercator' // 初始投影方式

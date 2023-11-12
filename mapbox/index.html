@@ -28,7 +28,7 @@
             </label>
             <ul class="nav-list ">
                 <li class="dropdown">
-                    <a href="#" aria-haspopup="true" class="nav__item nav__item--active">Map Styles</a>
+                    <a href="#" aria-haspopup="true" class="nav__item nav__item--active nav__item--map-styles">Map Styles</a>
                     <ul class="submenu" aria-label="submenu">
                         <li class="submenu__item">
                             <a href="#" class="nav__item" data-style="satellite-streets-v12">Satellite Streets</a>
@@ -48,7 +48,7 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a id="heatmapToggle" href="#" aria-haspopup="true" class="nav__item nav__item--active">Heat Map</a>
+                    <a id="heatmapToggle" href="#" aria-haspopup="true" class="nav__item nav__item--active nav__item--map-styles">Heat Map</a>
                     <ul class="submenu" aria-label="submenu">
                         <li class="submenu__item">
                             <a href="#" class="nav__item" id="heatmap1km">1km * 1km (Default)</a>
@@ -61,7 +61,7 @@
                         </li>
                     </ul>
                 </li>
-                <a href="#" id="interpolation" class="nav__item nav__item--active">Enable Interpolation</a>
+                <a href="#" id="interpolation" class="nav__item nav__item--active nav__item--map-styles">Enable Interpolation</a>
             </ul>
         </nav>
         <div id="fullscreen-container" style="padding: 10px 10px"></div>
@@ -77,20 +77,18 @@
 <div id="airQualityLegend">
     <div class="legend-container">
         <div class="legend-texts">
-            <span class="legend-text">Excellent</span>
-            <span class="legend-text">Good</span>
-            <span class="legend-text">Mild Pollution</span>
-            <span class="legend-text">Moderate Pollution</span>
-            <span class="legend-text">Severe Pollution</span>
-            <span class="legend-text">Hazardous Pollution</span>
+            <span class="legend-text">Ideal</span>
+            <span class="legend-text">Fair</span>
+            <span class="legend-text">Moderate</span>
+            <span class="legend-text">Poor</span>
+            <span class="legend-text">Severe</span>
         </div>
         <div class="legend-bars">
-            <div class="legend-bar" style="background-color: #00FF00;"></div>
-            <div class="legend-bar" style="background-color: #FFFF00;"></div>
-            <div class="legend-bar" style="background-color: #FFA500;"></div>
-            <div class="legend-bar" style="background-color: #FF4500;"></div>
-            <div class="legend-bar" style="background-color: #FF0000;"></div>
-            <div class="legend-bar" style="background-color: #8B0000;"></div>
+            <div class="legend-bar" style="background-color: #019c07;"></div>
+            <div class="legend-bar" style="background-color: #70be85;"></div>
+            <div class="legend-bar" style="background-color: #e1c76a;"></div>
+            <div class="legend-bar" style="background-color: #eb9371;"></div>
+            <div class="legend-bar" style="background-color: #b84141;"></div>
         </div>
         <div class="legend-ranges">
             <span class="legend-range" style="margin-top: 1px;">0</span>
@@ -98,8 +96,7 @@
             <span class="legend-range">100</span>
             <span class="legend-range">150</span>
             <span class="legend-range">200</span>
-            <span class="legend-range">300</span>
-            <span class="legend-range" style="margin-bottom: 1px;">500</span>
+            <span class="legend-range" style="margin-bottom: 1px;">250</span>
         </div>
     </div>
 </div>

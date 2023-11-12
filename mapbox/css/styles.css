@@ -1133,7 +1133,7 @@ hr.hr {
 }
 
 .header {
-    padding: 0 40px;
+    padding: 0 10px;
     z-index: 1000
 }
 
@@ -1157,12 +1157,21 @@ hr.hr {
     text-decoration: none;
     font-weight: 500;
     font-size: 16px;
-    margin: 0 12px
+    margin: 0 12px;
+    padding: 10px 15px; /* Add padding for a better click area */
+    display: inline-block;
+    border: 1px solid transparent; /* Default transparent border */
+    border-radius: 4px; /* Rounded corners for the border */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
 }
 
-.nav__item--active {
-    color: #198cff;
-    border-bottom: #3fc2c0 solid 2px
+/* Active state and hover styles */
+.nav__item--active,
+.nav__item:hover {
+    color: #1f2023;
+    background-color: #f8f8f8; /* Slight background on hover */
+    border-color: #3fc2c0; /* Border color on active/hover state */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
 .nav-list {
@@ -1204,7 +1213,7 @@ hr.hr {
     min-width: 5rem;
     position: absolute;
     transition: all .5s ease;
-    margin-top: 1rem;
+    margin-top: 2.5rem;
     top: 10px;
     left: 0;
     display: none
@@ -3338,4 +3347,9 @@ a.mapboxgl-ctrl-logo.mapboxgl-compact {
 .legend-range {
     align-self: baseline;
     margin: 4px 0px 7px 5px;
+}
+
+.nav__item--map-styles {
+    border-color: #30363c; /* Matching border color */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
 }
