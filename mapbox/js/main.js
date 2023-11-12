@@ -26,7 +26,7 @@ map.on('mouseenter', '1085-stations-1cyyg4', function (e) {
     const clickedData = e.features[0].properties;
 
     popup.setLngLat(e.lngLat)
-        .setHTML(generatePopupContent(clickedData))
+        .setHTML(generatePopupContent(clickedData, e.lngLat))
         .addTo(map);
 
     map.getCanvas().style.cursor = 'pointer';
@@ -51,7 +51,7 @@ map.on('click', function (e) {
                 // 创建一个信息窗口
                 new mapboxgl.Popup()
                     .setLngLat(lngLat)
-                    .setHTML(generatePopupContent(data))
+                    .setHTML(generatePopupContent(data, lngLat))
                     .addTo(map);
             });
         }

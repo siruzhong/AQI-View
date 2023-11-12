@@ -46,17 +46,24 @@ const coordinatesGeocoder = function (query) {
     return geocodes;
 };
 
-// 将位置搜索框添加到地图
-map.addControl(
-    new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        localGeocoder: coordinatesGeocoder,
-        zoom: 4,
-        placeholder: 'Search here ...',
-        mapboxgl: mapboxgl,
-        reverseGeocode: true
-    })
-);
+// Initialize the geocoder control
+const geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    localGeocoder: coordinatesGeocoder,
+    zoom: 4,
+    placeholder: 'Search here ...',
+    mapboxgl: mapboxgl,
+    reverseGeocode: true
+});
+
+// Append the geocoder to your header
+document.getElementById('geocoder-container').appendChild(geocoder.onAdd(map));
+
+// Initialize the fullscreen control
+const fullscreen = new mapboxgl.FullscreenControl()
+
+// Append the fullscreen to your header
+document.getElementById('fullscreen-container').appendChild(fullscreen.onAdd(map));
 
 // 定义空气质量图例控件
 class AirQualityLegendControl {

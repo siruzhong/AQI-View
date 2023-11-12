@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 from scipy.interpolate import Rbf
 
-GUANGZHOU_TOP_LEFT = (74.001081, 52.507315)  # Example: (longitude, latitude)
-GUANGZHOU_BOTTOM_RIGHT = (133.942487, 21.163083)
+CHINA_TOP_LEFT = (76.376, 50.298)  # Example: (longitude, latitude)
+CHINA_BOTTOM_RIGHT = (131.346, 18.846)
 
 
 def load_station_data(station_file):
@@ -29,8 +29,8 @@ def extract_guangzhou_stations(stations, hour_data):
         try:
             longitude = float(station['longitude'])
             latitude = float(station['latitude'])
-            if (GUANGZHOU_TOP_LEFT[0] <= longitude <= GUANGZHOU_BOTTOM_RIGHT[0] and
-                    GUANGZHOU_BOTTOM_RIGHT[1] <= latitude <= GUANGZHOU_TOP_LEFT[1]):
+            if (CHINA_TOP_LEFT[0] <= longitude <= CHINA_BOTTOM_RIGHT[0] and
+                    CHINA_BOTTOM_RIGHT[1] <= latitude <= CHINA_TOP_LEFT[1]):
                 pm25_value = hour_data[index]['air']['PM2.5']  # Assuming the order is the same
                 gz_stations.append({
                     'longitude': longitude,
@@ -49,8 +49,8 @@ def perform_interpolation(gz_stations):
     values = np.array([station['pm25'] for station in gz_stations])
 
     # Create grid points
-    grid_longitude = np.arange(GUANGZHOU_TOP_LEFT[0], GUANGZHOU_BOTTOM_RIGHT[0], 0.009)  # ~1km in longitude
-    grid_latitude = np.arange(GUANGZHOU_TOP_LEFT[1], GUANGZHOU_BOTTOM_RIGHT[1], -0.009)  # ~1km in latitude
+    grid_longitude = np.arange(CHINA_TOP_LEFT[0], CHINA_BOTTOM_RIGHT[0], 0.045)  # 5km in longitude
+    grid_latitude = np.arange(CHINA_TOP_LEFT[1], CHINA_BOTTOM_RIGHT[1], -0.045)  # 5km in latitude
     grid_x, grid_y = np.meshgrid(grid_longitude, grid_latitude)
 
     # Perform RBF interpolation

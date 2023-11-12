@@ -223,7 +223,7 @@ function getPollutionLevel(pm25) {
 }
 
 // 生成弹出框内容
-function generatePopupContent(data) {
+function generatePopupContent(data, lngLat) {
     function generateIndicatorWithColorBox(indicatorName, value) {
         function getColorForValue(value) {
             if (value <= 50) return '#00FF00';       // 绿色
@@ -268,6 +268,9 @@ function generatePopupContent(data) {
             <div> Wind Direction</div> <div><i style="margin: 5px 5px;" class="fas fa-location-arrow"></i></div> <div style="padding-left: 12px">${data.windDirection}°</div>
             <div> Weather</div> <div><i style="margin: 5px 5px;" class="fas fa-smog"></i></div> <div style="padding-left: 12px">${data.weather}</div>
             <div style="grid-column: 1 / span 2; color: steelblue; padding-top: 8px">${formattedTime}</div>
+            <p align="center">
+                <strong>Coordinate (${lngLat.lng.toFixed(3)}&deg;E, ${lngLat.lat.toFixed(3)}&deg;N)</strong>
+            </p>
         </div>
     `;
 }

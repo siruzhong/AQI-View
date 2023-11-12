@@ -64,8 +64,10 @@
                 <a href="#" id="interpolation" class="nav__item nav__item--active">Enable Interpolation</a>
             </ul>
         </nav>
+        <div id="fullscreen-container" style="padding: 10px 10px"></div>
+        <div id="geocoder-container" style="padding: 10px 10px"></div>
         <a href="https://citymind.top"
-           class="btn btn-primary donate-btn js-header-donate-btn">About US</a></div>
+           class="btn btn-primary donate-btn js-header-donate-btn">Research Home</a></div>
 </header>
 
 <!-- Map Area -->
@@ -75,12 +77,12 @@
 <div id="airQualityLegend">
     <div class="legend-container">
         <div class="legend-texts">
-            <span class="legend-text">优</span>
-            <span class="legend-text">良</span>
-            <span class="legend-text">轻度污染</span>
-            <span class="legend-text">中度污染</span>
-            <span class="legend-text">重度污染</span>
-            <span class="legend-text">严重污染</span>
+            <span class="legend-text">Excellent</span>
+            <span class="legend-text">Good</span>
+            <span class="legend-text">Mild Pollution</span>
+            <span class="legend-text">Moderate Pollution</span>
+            <span class="legend-text">Severe Pollution</span>
+            <span class="legend-text">Hazardous Pollution</span>
         </div>
         <div class="legend-bars">
             <div class="legend-bar" style="background-color: #00FF00;"></div>
@@ -101,7 +103,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- Mapbox Script -->
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
