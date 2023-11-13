@@ -5,8 +5,8 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoic2lydXpob25nIiwiYSI6ImNsamJpNXdvcTFoc24zZG14N
 const map = new mapboxgl.Map({
     container: 'map', // 地图容器的ID
     style: 'mapbox://styles/siruzhong/clmr3ruds027p01pj91ajfoif', // 地图样式的URL
-    center: [116.173553, 40.09068], // 初始位置 [经度, 纬度]
-    zoom: 6, // 初始缩放级别
+    center: [101.891, 35.115], // 初始位置 [经度, 纬度]
+    zoom: 3, // 初始缩放级别
     projection: 'mercator' // 初始投影方式
 });
 
@@ -33,10 +33,10 @@ map.on('mouseenter', '1085-stations-1cyyg4', function (e) {
 });
 
 // 当鼠标离开站点时移除数据
-map.on('mouseleave', '1085-stations-1cyyg4', function () {
-    map.getCanvas().style.cursor = '';
-    popup.remove();
-});
+// map.on('mouseleave', '1085-stations-1cyyg4', function () {
+//     map.getCanvas().style.cursor = '';
+//     popup.remove();
+// });
 
 // 添加点击事件监听器
 map.on('click', function (e) {
