@@ -104,27 +104,27 @@ function addStationsLayer() {
 function getWindDirectionDescription(windDirection) {
     switch (windDirection) {
         case 0:
-            return "无风";
+            return "Calm";
         case 1:
-            return "东风";
+            return "East";
         case 2:
-            return "西风";
+            return "West";
         case 3:
-            return "南风";
+            return "South";
         case 4:
-            return "北风";
+            return "North";
         case 9:
-            return "风向不定";
+            return "Variable";
         case 13:
-            return "东南风";
+            return "Southeast";
         case 14:
-            return "东北风";
+            return "Northeast";
         case 23:
-            return "西南风";
+            return "Southwest";
         case 24:
-            return "西北风";
+            return "Northwest";
         default:
-            return "未知";
+            return "Unknown";
     }
 }
 
@@ -132,41 +132,41 @@ function getWindDirectionDescription(windDirection) {
 function getWeatherDescription(weatherClass) {
     switch (weatherClass) {
         case 0:
-            return "晴";
+            return "Clear";
         case 1:
-            return "多云";
+            return "Partly Cloudy";
         case 2:
-            return "阴";
+            return "Overcast";
         case 3:
-            return "雨";
+            return "Rain";
         case 4:
-            return "小雨";
+            return "Light Rain";
         case 5:
-            return "中雨";
+            return "Moderate Rain";
         case 6:
-            return "大雨";
+            return "Heavy Rain";
         case 7:
-            return "暴雨";
+            return "Torrential Rain";
         case 8:
-            return "雷雨";
+            return "Thunderstorm";
         case 9:
-            return "冻雨";
+            return "Freezing Rain";
         case 10:
-            return "雪";
+            return "Snow";
         case 11:
-            return "小雪";
+            return "Light Snow";
         case 12:
-            return "中雪";
+            return "Moderate Snow";
         case 13:
-            return "大雪";
+            return "Heavy Snow";
         case 14:
-            return "雾";
+            return "Fog";
         case 15:
-            return "沙尘暴";
+            return "Dust Storm";
         case 16:
-            return "扬沙";
+            return "Blowing Sand";
         default:
-            return "未知";
+            return "Unknown";
     }
 }
 
@@ -232,7 +232,7 @@ function generatePopupContent(data, lngLat) {
 
         const color = getColorForValue(value);
         return `
-        <div>${indicatorName}</div>
+        <div style="margin: 0 0 0 5px">${indicatorName}</div>
         <div style="width: 12px; height: 12px; background-color: ${color}; margin: 5px 5px;"></div>
         <div style="padding-left: 12px">${value}</div>
     `;
@@ -243,81 +243,56 @@ function generatePopupContent(data, lngLat) {
     const hours = now.getHours() > 12 ? now.getHours() - 12 : now.getHours();
     const minutes = now.getMinutes().toString().padStart(2, '0');  // 保证分钟总是两位数
     const amPm = now.getHours() >= 12 ? 'PM' : 'AM';
-    const formattedTime = `更新于 ${hours}:${minutes} ${amPm}`;
+    const formattedTime = `Update at ${hours}:${minutes} ${amPm}`;
 
-    popupcontent1 = `
-    <div style="display: grid; grid-template-columns: auto 14px auto;">
-        <div style="grid-column: 1 / span 3; display: flex; align-items: center; justify-content: flex-start; margin: 0 0 8px 0">
-            <div style="width: 6px; height: 12px; background-color: ${pollution.color};"></div>
-            <div style="padding-left: 8px">${pollution.level}</div>
-        </div>
-        ${generateIndicatorWithColorBox('PM2.5', data.pm25)}
-        ${generateIndicatorWithColorBox('PM10', data.pm10)}
-        ${generateIndicatorWithColorBox('NO2', data.no2)}
-        ${generateIndicatorWithColorBox('CO', data.co)}
-        ${generateIndicatorWithColorBox('O3', data.o3)}
-        ${generateIndicatorWithColorBox('SO2', data.so2)}
-        <div> Rainfall</div> <div><i style="margin: 5px 5px;" class="fas fa-cloud-rain"></i></div> <div style="padding-left: 12px">${data.rainfall.toFixed(2)} mm</div>
-        <div> Temperature</div> <div><i style="margin: 5px 5px;" class="fas fa-thermometer"></i></div> <div style="padding-left: 12px">${data.temperature.toFixed(2)} °C</div>
-        <div> Pressure</div> <div><i style="margin: 5px 5px;" class="fas fa-tachometer-alt"></i></div> <div style="padding-left: 12px">${data.pressure.toFixed(2)} hPa</div>
-        <div> Humidity</div> <div><i style="margin: 5px 5px;" class="fas fa-water"></i></div> <div style="padding-left: 12px">${data.humidity.toFixed(2)} %</div>
-        <div> Wind Speed</div> <div><i style="margin: 5px 5px;" class="fas fa-wind"></i></div> <div style="padding-left: 12px">${data.windSpeed.toFixed(2)} m/s</div>
-        <div> Wind Direction</div> <div><i style="margin: 5px 5px;" class="fas fa-location-arrow"></i></div> <div style="padding-left: 12px">${data.windDirection}°</div>
-        <div> Weather</div> <div><i style="margin: 5px 5px;" class="fas fa-smog"></i></div> <div style="padding-left: 12px">${data.weather}</div>
-        <div style="grid-column: 1 / span 2; color: steelblue; padding-top: 8px">${formattedTime}</div>
-        <p align="center">
-            <strong>Coordinate (${lngLat.lng.toFixed(3)}&deg;E, ${lngLat.lat.toFixed(3)}&deg;N)</strong>
-        </p>
-    </div>
-`
-    popupcontent2 = `
-    <div style="font-family: 'Segoe UI', Arial, sans-serif; background-color: #fff; color: #333; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 20px; display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 10px; align-items: center;">
-        <div style="grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; background-color: ${pollution.color}; color: #fff; padding: 4px 0; border-radius: 4px; margin-bottom: 12px;">
+    popupcontent = `
+    <div style="font-family: 'Segoe UI', Arial, sans-serif; background-color: #fff; color: #333; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 10px; display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 4px 10px; align-items: center;">
+        <div style="grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; background-color: ${pollution.color}; color: #fff; padding: 4px 0; border-radius: 4px;">
             <span style="font-weight: bold;">${pollution.level}</span>
         </div>
-        ${generateIndicatorWithColorBox('PM2.5', data.pm25)}
-        ${generateIndicatorWithColorBox('PM10', data.pm10)}
-        ${generateIndicatorWithColorBox('NO2', data.no2)}
-        ${generateIndicatorWithColorBox('CO', data.co)}
-        ${generateIndicatorWithColorBox('O3', data.o3)}
-        ${generateIndicatorWithColorBox('SO2', data.so2)}
+        ${generateIndicatorWithColorBox('PM2.5', data.pm25.toFixed(2))}
+        ${generateIndicatorWithColorBox('PM10', data.pm10.toFixed(2))}
+        ${generateIndicatorWithColorBox('NO2', data.no2.toFixed(2))}
+        ${generateIndicatorWithColorBox('CO', data.co.toFixed(2))}
+        ${generateIndicatorWithColorBox('O3', data.o3.toFixed(2))}
+        ${generateIndicatorWithColorBox('SO2', data.so2.toFixed(2))}
         <div style="grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; font-size: 0.85rem;">
             <div style="margin: 4px 0; display: flex; align-items: center;">
                 <i style="margin-right: 5px; color: #777;" class="fas fa-cloud-rain"></i>
-                <span>Rainfall: ${data.rainfall.toFixed(2)} mm</span>
+                <span>Rainfall: &nbsp;<u>${data.rainfall.toFixed(2)}</u> mm</span>
             </div>
             <div style="margin: 4px 0; display: flex; align-items: center;">
                 &nbsp;<i style="margin-right: 5px; color: #777;" class="fas fa-thermometer-half"></i>&nbsp;
-                <span>Temperature: ${data.temperature.toFixed(2)} °C</span>
+                <span>Temperature: &nbsp;<u>${data.temperature.toFixed(2)}</u> °C</span>
             </div>
             <div style="margin: 4px 0; display: flex; align-items: center;">
                 <i style="margin-right: 5px; color: #777;" class="fas fa-tachometer-alt"></i>
-                <span>Pressure: ${data.pressure.toFixed(2)} hPa</span>
+                <span>Pressure: &nbsp;<u>${data.pressure.toFixed(2)}</u> hPa</span>
             </div>
             <div style="margin: 4px 0; display: flex; align-items: center;">
                 <i style="margin-right: 5px; color: #777;" class="fas fa-water"></i>
-                <span>Humidity: ${data.humidity.toFixed(2)}%</span>
+                <span>Humidity: &nbsp;<u>${data.humidity.toFixed(2)}</u> %</span>
             </div>
             <div style="margin: 4px 0; display: flex; align-items: center;">
                 <i style="margin-right: 5px; color: #777;" class="fas fa-wind"></i>
-                <span>Wind Speed: ${data.windSpeed.toFixed(2)} m/s</span>
+                <span>Wind Speed: &nbsp;<u>${data.windSpeed.toFixed(2)}</u> m/s</span>
             </div>
             <div style="margin: 4px 0; display: flex; align-items: center;">
                 <i style="margin-right: 5px; color: #777;" class="fas fa-location-arrow"></i>
-                <span>Wind Direction: ${data.windDirection}°</span>
+                <span>Wind Direction: &nbsp;<u>${data.windDirection}</u> °</span>
             </div>
             <div style="margin: 4px 0; display: flex; align-items: center;">
                 <i style="margin-right: 5px; color: #777;" class="fas fa-smog"></i>
-                <span>Weather: ${data.weather}</span>
+                <span>Weather: &nbsp;<u>${data.weather}</u> </span>
             </div>
-            <div style="grid-column: 1 / -1; text-align: center; color: steelblue; margin-top: 12px;">
-                <span>${formattedTime}</span>
+            <div style="font-size:x-small; color: steelblue;">
+                <strong>${formattedTime}</strong>
             </div>
-            <div style="grid-column: 1 / -1; text-align: center; color: steelblue; margin-top: 4px;">
+            <div style="font-size:x-small; color: steelblue;">
                 <strong>Coordinates: (${lngLat.lng.toFixed(3)}°E, ${lngLat.lat.toFixed(3)}°N)</strong>
             </div>
         </div>
     </div>
 `
-    return popupcontent2
+    return popupcontent
 }
