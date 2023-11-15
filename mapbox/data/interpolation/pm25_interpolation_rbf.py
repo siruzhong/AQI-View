@@ -68,7 +68,7 @@ def perform_interpolation(gz_stations):
             })
 
     # Save to JSON file
-    with open('pm25_gz_interpolation.json', 'w') as json_file:
+    with open('pm25_interpolation_rbf.json', 'w') as json_file:
         json.dump(grid_data, json_file, indent=4)
 
 

@@ -34,8 +34,8 @@ def perform_kriging_interpolation(gz_stations):
     lons, lats, pm25_values = zip(*gz_stations)  # Unpack tuples
     OK = OrdinaryKriging(lons, lats, pm25_values, variogram_model='gaussian', verbose=True, enable_plotting=False)
 
-    grid_lon = np.arange(CHINA_TOP_LEFT[0], CHINA_BOTTOM_RIGHT[0], 0.45)
-    grid_lat = np.arange(CHINA_TOP_LEFT[1], CHINA_BOTTOM_RIGHT[1], -0.45)
+    grid_lon = np.arange(CHINA_TOP_LEFT[0], CHINA_BOTTOM_RIGHT[0], 0.45)  # ~50km in longitude
+    grid_lat = np.arange(CHINA_TOP_LEFT[1], CHINA_BOTTOM_RIGHT[1], -0.45)  # ~50km in latitude
     z, ss = OK.execute('grid', grid_lon, grid_lat)
 
     grid_data = []
@@ -62,7 +62,7 @@ def main():
     gz_stations = extract_china_stations(stations, hour_data)
     grid_data = perform_kriging_interpolation(gz_stations)
 
-    with open('pm25_interpolation.json', 'w') as json_file:
+    with open('pm25_interpolation_kriging_50.json', 'w') as json_file:
         json.dump(grid_data, json_file, indent=4)
 
 

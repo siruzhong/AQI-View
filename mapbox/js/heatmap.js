@@ -9,9 +9,18 @@ const gridData = [];
 // Fetch the interpolated PM2.5 data and use it to generate grid data
 async function interpolateGridData() {
     try {
-        // Fetch the interpolated data
-        const response = await fetch('./data/interpolation/pm25_interpolation.json');
-        const pm25InterpolatedData = await response.json();
+        let pm25InterpolatedData
+        if (gridSize === 0.45) {
+            // Fetch the interpolated data
+            const response = await fetch('./data/interpolation/pm25_interpolation_kriging_50.json');
+            pm25InterpolatedData = await response.json();
+        } else if (gridSize === 0.90) {
+            const response = await fetch('./data/interpolation/pm25_interpolation_kriging_100.json');
+            pm25InterpolatedData = await response.json();
+        } else if (gridSize === 1.35) {
+            const response = await fetch('./data/interpolation/pm25_interpolation_kriging_150.json');
+            pm25InterpolatedData = await response.json();
+        }
 
         // Generate grid data using the interpolated PM2.5 values
         pm25InterpolatedData.forEach(item => {
