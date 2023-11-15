@@ -294,7 +294,7 @@ function generatePopupContent(data, lngLat) {
             </div>
         </div>
     </div>
-    <div style="margin-top: 5px; text-align:center; color: #1083df;"><strong>${formattedTime}</strong></div>
+    <div style="margin-top: 5px; font-size:14px; text-align:center; color: #1083df;"><strong>${formattedTime}</strong></div>
 `
     return popupcontent
 }
