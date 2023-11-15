@@ -30,12 +30,12 @@ def extract_china_stations(stations, hour_data):
     return gz_stations
 
 
-def perform_kriging_interpolation(gz_stations):
+def perform_kriging_interpolation(gz_stations, span_lon, span_lat):
     lons, lats, pm25_values = zip(*gz_stations)  # Unpack tuples
     OK = OrdinaryKriging(lons, lats, pm25_values, variogram_model='gaussian', verbose=True, enable_plotting=False)
 
-    grid_lon = np.arange(CHINA_TOP_LEFT[0], CHINA_BOTTOM_RIGHT[0], 0.45)  # ~50km in longitude
-    grid_lat = np.arange(CHINA_TOP_LEFT[1], CHINA_BOTTOM_RIGHT[1], -0.45)  # ~50km in latitude
+    grid_lon = np.arange(CHINA_TOP_LEFT[0], CHINA_BOTTOM_RIGHT[0], span_lon)  # ~150km in longitude
+    grid_lat = np.arange(CHINA_TOP_LEFT[1], CHINA_BOTTOM_RIGHT[1], span_lat)  # ~150km in latitude
     z, ss = OK.execute('grid', grid_lon, grid_lat)
 
     grid_data = []
@@ -58,12 +58,22 @@ def main():
     stations = load_station_data(station_file)
     hour_data = load_hour_data(hour_data_file)
 
+    # Grid sizes with corresponding spans for longitude and latitude
+    grid_sizes = [[50, 0.45, -0.45], [100, 0.9, -0.9], [150, 1.35, -1.35]]
+
     # Extract relevant stations
     gz_stations = extract_china_stations(stations, hour_data)
-    grid_data = perform_kriging_interpolation(gz_stations)
 
-    with open('pm25_interpolation_kriging_50.json', 'w') as json_file:
-        json.dump(grid_data, json_file, indent=4)
+    # Perform kriging interpolation for each grid size
+    for size in grid_sizes:
+        span_distance, span_lon, span_lat = size
+        grid_data = perform_kriging_interpolation(gz_stations, span_lon, span_lat)
+
+        # Save to JSON file named according to the span distance
+        file_name = f'pm25_interpolation_kriging_{span_distance}.json'
+        with open(file_name, 'w') as json_file:
+            json.dump(grid_data, json_file, indent=4)
+        print(f"Saved kriging result to {file_name}")
 
 
 if __name__ == "__main__":
