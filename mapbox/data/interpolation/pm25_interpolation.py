@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 from scipy.interpolate import Rbf
 
-CHINA_TOP_LEFT = (76.376, 50.298)  # Example: (longitude, latitude)
-CHINA_BOTTOM_RIGHT = (131.346, 18.846)
+CHINA_TOP_LEFT = (75.383851, 51.514166)  # Example: (longitude, latitude)
+CHINA_BOTTOM_RIGHT = (132.383069, 18.424216)
 
 
 def load_station_data(station_file):
@@ -49,8 +49,8 @@ def perform_interpolation(gz_stations):
     values = np.array([station['pm25'] for station in gz_stations])
 
     # Create grid points
-    grid_longitude = np.arange(CHINA_TOP_LEFT[0], CHINA_BOTTOM_RIGHT[0], 0.045)  # 5km in longitude
-    grid_latitude = np.arange(CHINA_TOP_LEFT[1], CHINA_BOTTOM_RIGHT[1], -0.045)  # 5km in latitude
+    grid_longitude = np.arange(CHINA_TOP_LEFT[0], CHINA_BOTTOM_RIGHT[0], 0.09)  # 10km in longitude
+    grid_latitude = np.arange(CHINA_TOP_LEFT[1], CHINA_BOTTOM_RIGHT[1], -0.09)  # 10km in latitude
     grid_x, grid_y = np.meshgrid(grid_longitude, grid_latitude)
 
     # Perform RBF interpolation

@@ -3,37 +3,46 @@ const latRange = [51.514166, 18.424216];
 const lngRange = [75.383851, 132.383069];
 
 // 初始化格网大小和格网数据数组
-let gridSize = 1;
+let gridSize = 0.09;
 const gridData = [];
 
-// 使用最简单的平均值方法为网格单元分配值
-function interpolateGridData() {
-    for (let lat = latRange[1]; lat <= latRange[0]; lat += gridSize) {
-        for (let lng = lngRange[0]; lng <= lngRange[1]; lng += gridSize) {
-            try {
-                // 添加到 gridData
-                gridData.push({
-                    type: 'Feature',
-                    geometry: {
-                        type: 'Polygon',
-                        coordinates: [
-                            [
-                                [lng, lat],
-                                [lng + gridSize, lat],
-                                [lng + gridSize, lat - gridSize],
-                                [lng, lat - gridSize],
-                                [lng, lat]
-                            ]
+// Fetch the interpolated PM2.5 data and use it to generate grid data
+async function interpolateGridData() {
+    try {
+        // Fetch the interpolated data
+        const response = await fetch('./data/interpolation/pm25_gz_interpolation.json');
+        const pm25InterpolatedData = await response.json();
+
+        // Generate grid data using the interpolated PM2.5 values
+        pm25InterpolatedData.forEach(item => {
+            gridData.push({
+                type: 'Feature',
+                geometry: {
+                    type: 'Polygon',
+                    coordinates: [
+                        [
+                            [item.grid_longitude - gridSize / 2, item.grid_latitude - gridSize / 2],
+                            [item.grid_longitude + gridSize / 2, item.grid_latitude - gridSize / 2],
+                            [item.grid_longitude + gridSize / 2, item.grid_latitude + gridSize / 2],
+                            [item.grid_longitude - gridSize / 2, item.grid_latitude + gridSize / 2],
+                            [item.grid_longitude - gridSize / 2, item.grid_latitude - gridSize / 2]
                         ]
-                    },
-                    properties: {
-                        pm25: Math.random() * 150
-                    }
-                });
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
+                    ]
+                },
+                properties: {
+                    pm25: item.pm25
+                }
+            });
+        });
+
+        // Once gridData is populated, update the map source
+        map.getSource('pm25').setData({
+            type: 'FeatureCollection',
+            features: gridData
+        });
+
+    } catch (error) {
+        console.error('Error fetching or processing interpolated data:', error);
     }
 }
 
@@ -104,16 +113,16 @@ map.on('load', function () {
 
 // 点击不同尺度的 heatmap 按钮时，更新数据和图层
 document.getElementById('heatmap1km').addEventListener('click', function () {
-    gridSize = 1;
+    gridSize = 0.09;
     updateDataAndLayer();
 });
 
 document.getElementById('heatmap2km').addEventListener('click', function () {
-    gridSize = 2;
+    gridSize = 0.18;
     updateDataAndLayer();
 });
 
 document.getElementById('heatmap3km').addEventListener('click', function () {
-    gridSize = 3;
+    gridSize = 0.27;
     updateDataAndLayer();
 });

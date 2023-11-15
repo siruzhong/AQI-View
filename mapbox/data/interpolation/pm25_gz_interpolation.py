@@ -49,8 +49,8 @@ def perform_interpolation(gz_stations):
     values = np.array([station['pm25'] for station in gz_stations])
 
     # Create grid points
-    grid_longitude = np.arange(GUANGZHOU_TOP_LEFT[0], GUANGZHOU_BOTTOM_RIGHT[0], 0.009)  # ~1km in longitude
-    grid_latitude = np.arange(GUANGZHOU_TOP_LEFT[1], GUANGZHOU_BOTTOM_RIGHT[1], -0.009)  # ~1km in latitude
+    grid_longitude = np.arange(GUANGZHOU_TOP_LEFT[0], GUANGZHOU_BOTTOM_RIGHT[0], 0.09)  # ~10km in longitude
+    grid_latitude = np.arange(GUANGZHOU_TOP_LEFT[1], GUANGZHOU_BOTTOM_RIGHT[1], -0.09)  # ~10km in latitude
     grid_x, grid_y = np.meshgrid(grid_longitude, grid_latitude)
 
     # Perform RBF interpolation
