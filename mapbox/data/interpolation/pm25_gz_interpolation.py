@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 from scipy.interpolate import Rbf
 
-GUANGZHOU_TOP_LEFT = (111.969831,23.962843)  # Example: (longitude, latitude)
-GUANGZHOU_BOTTOM_RIGHT = (114.738385,22.265389)
+GUANGZHOU_TOP_LEFT = (95.969831, 42.962843)  # Example: (longitude, latitude)
+GUANGZHOU_BOTTOM_RIGHT = (124.738385, 20.265389)
 
 
 def load_station_data(station_file):
@@ -49,12 +49,12 @@ def perform_interpolation(gz_stations):
     values = np.array([station['pm25'] for station in gz_stations])
 
     # Create grid points
-    grid_longitude = np.arange(GUANGZHOU_TOP_LEFT[0], GUANGZHOU_BOTTOM_RIGHT[0], 0.09)  # ~10km in longitude
-    grid_latitude = np.arange(GUANGZHOU_TOP_LEFT[1], GUANGZHOU_BOTTOM_RIGHT[1], -0.09)  # ~10km in latitude
+    grid_longitude = np.arange(GUANGZHOU_TOP_LEFT[0], GUANGZHOU_BOTTOM_RIGHT[0], 0.45)  # ~50km in longitude
+    grid_latitude = np.arange(GUANGZHOU_TOP_LEFT[1], GUANGZHOU_BOTTOM_RIGHT[1], -0.45)  # ~50km in latitude
     grid_x, grid_y = np.meshgrid(grid_longitude, grid_latitude)
 
     # Perform RBF interpolation
-    rbf = Rbf(points[:, 0], points[:, 1], values, function='linear')
+    rbf = Rbf(points[:, 0], points[:, 1], values, function='gaussian')
     grid_z = rbf(grid_x, grid_y)
 
     # Generate JSON data structure

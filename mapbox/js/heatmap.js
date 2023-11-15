@@ -3,14 +3,14 @@ const latRange = [51.514166, 18.424216];
 const lngRange = [75.383851, 132.383069];
 
 // 初始化格网大小和格网数据数组
-let gridSize = 0.09;
+let gridSize = 0.45;
 const gridData = [];
 
 // Fetch the interpolated PM2.5 data and use it to generate grid data
 async function interpolateGridData() {
     try {
         // Fetch the interpolated data
-        const response = await fetch('./data/interpolation/pm25_gz_interpolation.json');
+        const response = await fetch('./data/interpolation/pm25_interpolation.json');
         const pm25InterpolatedData = await response.json();
 
         // Generate grid data using the interpolated PM2.5 values
@@ -112,17 +112,17 @@ map.on('load', function () {
 });
 
 // 点击不同尺度的 heatmap 按钮时，更新数据和图层
-document.getElementById('heatmap1km').addEventListener('click', function () {
-    gridSize = 0.09;
+document.getElementById('heatmap50km').addEventListener('click', function () {
+    gridSize = 0.45;
     updateDataAndLayer();
 });
 
-document.getElementById('heatmap2km').addEventListener('click', function () {
-    gridSize = 0.18;
+document.getElementById('heatmap100km').addEventListener('click', function () {
+    gridSize = 0.90;
     updateDataAndLayer();
 });
 
-document.getElementById('heatmap3km').addEventListener('click', function () {
-    gridSize = 0.27;
+document.getElementById('heatmap150km').addEventListener('click', function () {
+    gridSize = 1.35;
     updateDataAndLayer();
 });
