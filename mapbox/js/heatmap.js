@@ -6,29 +6,33 @@ const lngRange = [73.683851, 135.383069];
 let gridSize = 1;
 const gridData = [];
 
-// 添加格网数据
-function addGridData() {
+// 使用最简单的平均值方法为网格单元分配值
+function interpolateGridData() {
     for (let lat = latRange[1]; lat <= latRange[0]; lat += gridSize) {
         for (let lng = lngRange[0]; lng <= lngRange[1]; lng += gridSize) {
-            const pm25Value = Math.random() * 300;
-            gridData.push({
-                type: 'Feature',
-                geometry: {
-                    type: 'Polygon',
-                    coordinates: [
-                        [
-                            [lng, lat],
-                            [lng + gridSize, lat],
-                            [lng + gridSize, lat - gridSize],
-                            [lng, lat - gridSize],
-                            [lng, lat]
+            try {
+                // 添加到 gridData
+                gridData.push({
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Polygon',
+                        coordinates: [
+                            [
+                                [lng, lat],
+                                [lng + gridSize, lat],
+                                [lng + gridSize, lat - gridSize],
+                                [lng, lat - gridSize],
+                                [lng, lat]
+                            ]
                         ]
-                    ]
-                },
-                properties: {
-                    pm25: pm25Value
-                }
-            });
+                    },
+                    properties: {
+                        pm25: Math.random() * 150
+                    }
+                });
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
     }
 }
@@ -45,9 +49,10 @@ function createGeoJSONSource() {
 }
 
 // 添加 Heatmap 图层
-function addHeatmapLayer() {
-    addGridData(); // 添加格网数据
+async function addHeatmapLayer() {
+    interpolateGridData(); // 等待 interpolateGridData 函数完成
     createGeoJSONSource(); // 创建 GeoJSON 数据源
+
     map.addLayer({
         id: 'pm25-fill',
         type: 'fill',
@@ -55,17 +60,17 @@ function addHeatmapLayer() {
         paint: {
             'fill-color': [
                 'interpolate', ['linear'], ['get', 'pm25'],
-                0, 'rgba(0, 255, 0, 0.7)',
-                50, 'rgba(255, 255, 0, 0.7)',
-                100, 'rgba(255, 165, 0, 0.8)',
-                150, 'rgba(255, 69, 0, 0.9)',
-                200, 'rgba(255, 0, 0, 1)',
-                300, 'rgba(139, 0, 0, 1)'
+                0, '#019c07',
+                50, '#70be85',
+                100, '#e1c76a',
+                150, '#eb9371',
+                200, '#b84141',
             ],
-            'fill-opacity': 0.7
+            'fill-opacity': 0.4,
+            'fill-outline-color': 'rgba(0,0,0,0.1)',
         },
         layout: {
-            'visibility': 'none'  // 初始设置为不可见
+            'visibility': 'visible'  // 初始设置为可见
         }
     });
 }
@@ -73,7 +78,7 @@ function addHeatmapLayer() {
 // 更新数据和图层
 function updateDataAndLayer() {
     gridData.length = 0; // 清空旧数据
-    addGridData(); // 添加新数据
+    interpolateGridData(); // 使用插值添加新数据
     map.getSource('pm25').setData({ // 更新数据源
         type: 'FeatureCollection',
         features: gridData
