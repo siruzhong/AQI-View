@@ -3099,7 +3099,7 @@ a.mapboxgl-ctrl-logo.mapboxgl-compact {
     pointer-events: auto;
     background: #fff;
     border-radius: 3px;
-    padding: 10px 10px 15px;
+    padding: 10px 10px 10px;
     position: relative;
     box-shadow: 0 1px 2px #0000001a
 }
@@ -3352,4 +3352,22 @@ a.mapboxgl-ctrl-logo.mapboxgl-compact {
 .nav__item--map-styles {
     border-color: #30363c; /* Matching border color */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
+}
+
+.icon {
+    margin-right: 8px;
+    width: 18px;
+    height: 18px;
+}
+
+.popup-top {
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+    text-align: center; /* 更新这里 */
+    background-color: #f6f6f6;
+    padding: 4px 4px;
+    border-radius: 3px;
+    display: block; /* 或者让父元素使用text-align来居中 */
+    margin: 0 auto; /* 如果你想让这个块居中 */
 }

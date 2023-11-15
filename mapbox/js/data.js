@@ -188,7 +188,7 @@ function fetchDataForLocation(lngLat, callback) {
 
     const data = {
         pm25: getRandomInt(0, 500),          // PM2.5的范围: 0-500 μg/m³
-        pm10: getRandomInt(0, 1000),         // PM10的范围: 0-1000 μg/m³
+        pm10: getRandomInt(0, 500),         // PM10的范围: 0-500 μg/m³
         no2: getRandomInt(0, 200),           // NO2的范围: 0-200 ppb
         co: getRandomInt(0, 10),             // CO的范围: 0-10 ppm
         o3: getRandomInt(0, 500),            // O3的范围: 0-500 ppb
@@ -237,7 +237,7 @@ function generatePopupContent(data, lngLat) {
 
         // const width = Math.max(20, (value / maxValue) * 90); // Set a minimum width of 10px
         return `
-        <div>${indicatorName}</div>
+        <div style="margin-left: 2px">${indicatorName}</div>
         <div style="width: ${width}px; height: 12px; background-color: ${color};"></div>
         <div style="padding-left: 12px">${value}</div>
     `;
@@ -252,6 +252,7 @@ function generatePopupContent(data, lngLat) {
     const maxvalue = Math.max(data.pm25, data.pm10, data.no2, data.co, data.o3, data.so2)
 
     popupcontent = `
+    <div class="popup-top" align="center" style="margin-top: 5px;"><strong>Coordinates<br>(${lngLat.lng.toFixed(3)}°E, ${lngLat.lat.toFixed(3)}°N)</strong></div>
     <div style="font-family: 'Segoe UI', Arial, sans-serif; background-color: #fff; color: #333; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 10px; display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 4px 4px; align-items: center;">
         <div style="grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; background-color: ${pollution.color}; color: #fff; padding: 4px 0; border-radius: 4px;">
             <span style="font-weight: bold;">${pollution.level}</span>
@@ -264,41 +265,36 @@ function generatePopupContent(data, lngLat) {
         ${generateIndicatorWithColorBox('SO2', data.so2.toFixed(2), maxvalue)}
         <div style="grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; font-size: 0.85rem;">
             <div style="margin: 4px 0; display: flex; align-items: center;">
-                <i style="margin-right: 5px; color: #777;" class="fas fa-cloud-rain"></i>
-                <span>Rainfall: &nbsp;<u>${data.rainfall.toFixed(2)}</u> mm</span>
+                <img src="./assets/rainfall.png" alt="Carbon Icon" class="icon">
+                <span>Rainfall &nbsp;&nbsp;<u>${data.rainfall.toFixed(2)}</u> mm</span>
             </div>
             <div style="margin: 4px 0; display: flex; align-items: center;">
-                &nbsp;<i style="margin-right: 5px; color: #777;" class="fas fa-thermometer-half"></i>&nbsp;
-                <span>Temperature: &nbsp;<u>${data.temperature.toFixed(2)}</u> °C</span>
+                <img src="./assets/temperature.png" alt="Carbon Icon" class="icon">
+                <span>Temperature &nbsp;&nbsp;<u>${data.temperature.toFixed(2)}</u> °C</span>
             </div>
             <div style="margin: 4px 0; display: flex; align-items: center;">
-                <i style="margin-right: 5px; color: #777;" class="fas fa-tachometer-alt"></i>
-                <span>Pressure: &nbsp;<u>${data.pressure.toFixed(2)}</u> hPa</span>
+                <img src="./assets/pressure.png" alt="Carbon Icon" class="icon">
+                <span>Pressure &nbsp;&nbsp;<u>${data.pressure.toFixed(2)}</u> hPa</span>
             </div>
             <div style="margin: 4px 0; display: flex; align-items: center;">
-                <i style="margin-right: 5px; color: #777;" class="fas fa-water"></i>
-                <span>Humidity: &nbsp;<u>${data.humidity.toFixed(2)}</u> %</span>
+                <img src="./assets/humidity.png" alt="Carbon Icon" class="icon">
+                <span>Humidity &nbsp;&nbsp;<u>${data.humidity.toFixed(2)}</u> %</span>
             </div>
             <div style="margin: 4px 0; display: flex; align-items: center;">
-                <i style="margin-right: 5px; color: #777;" class="fas fa-wind"></i>
-                <span>Wind Speed: &nbsp;<u>${data.windSpeed.toFixed(2)}</u> m/s</span>
+                <img src="./assets/wind-speed.png" alt="Carbon Icon" class="icon">
+                <span>Wind-Speed &nbsp;&nbsp;<u>${data.windSpeed.toFixed(2)}</u> m/s</span>
             </div>
             <div style="margin: 4px 0; display: flex; align-items: center;">
-                <i style="margin-right: 5px; color: #777;" class="fas fa-location-arrow"></i>
-                <span>Wind Direction: &nbsp;<u>${data.windDirection}</u> °</span>
+                <img src="./assets/wind-direction.png" alt="Carbon Icon" class="icon">
+                <span>Wind-Direction &nbsp;&nbsp;<u>${data.windDirection}</u> °</span>
             </div>
             <div style="margin: 4px 0; display: flex; align-items: center;">
-                <i style="margin-right: 5px; color: #777;" class="fas fa-smog"></i>
-                <span>Weather: &nbsp;<u>${data.weather}</u> </span>
-            </div>
-            <div style="font-size:x-small; color: steelblue;">
-                <strong>${formattedTime}</strong>
-            </div>
-            <div style="font-size:x-small; color: steelblue;">
-                <strong>Coordinates: (${lngLat.lng.toFixed(3)}°E, ${lngLat.lat.toFixed(3)}°N)</strong>
+                <img src="./assets/weather.png" alt="Carbon Icon" class="icon">
+                <span>Weather &nbsp;&nbsp;<u>${data.weather}</u> </span>
             </div>
         </div>
     </div>
+    <div style="margin-top: 5px; text-align:center; color: #1083df;"><strong>${formattedTime}</strong></div>
 `
     return popupcontent
 }
