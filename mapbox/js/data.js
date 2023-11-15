@@ -221,7 +221,7 @@ function getPollutionLevel(pm25) {
 
 // 生成弹出框内容
 function generatePopupContent(data, lngLat) {
-    function generateIndicatorWithColorBox(indicatorName, value) {
+    function generateIndicatorWithColorBox(indicatorName, value, maxValue) {
         function getColorForValue(value) {
             if (value <= 50) return '#019c07';       // 绿色
             if (value <= 100) return '#70be85';      // 黄色
@@ -231,9 +231,14 @@ function generatePopupContent(data, lngLat) {
         }
 
         const color = getColorForValue(value);
+        const linearScaleFactor = 10; // Adjust as needed to ensure visibility for small values
+        const logScaleFactor = 90; // Adjust based on the visual requirements
+        const width = value <= 1 ? linearScaleFactor * value : Math.log(value + 1) / Math.log(maxValue + 1) * logScaleFactor;
+
+        // const width = Math.max(20, (value / maxValue) * 90); // Set a minimum width of 10px
         return `
-        <div style="margin: 0 0 0 5px">${indicatorName}</div>
-        <div style="width: 12px; height: 12px; background-color: ${color}; margin: 5px 5px;"></div>
+        <div>${indicatorName}</div>
+        <div style="width: ${width}px; height: 12px; background-color: ${color};"></div>
         <div style="padding-left: 12px">${value}</div>
     `;
     }
@@ -244,18 +249,19 @@ function generatePopupContent(data, lngLat) {
     const minutes = now.getMinutes().toString().padStart(2, '0');  // 保证分钟总是两位数
     const amPm = now.getHours() >= 12 ? 'PM' : 'AM';
     const formattedTime = `Update at ${hours}:${minutes} ${amPm}`;
+    const maxvalue = Math.max(data.pm25, data.pm10, data.no2, data.co, data.o3, data.so2)
 
     popupcontent = `
-    <div style="font-family: 'Segoe UI', Arial, sans-serif; background-color: #fff; color: #333; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 10px; display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 4px 10px; align-items: center;">
+    <div style="font-family: 'Segoe UI', Arial, sans-serif; background-color: #fff; color: #333; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); padding: 10px; display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 4px 4px; align-items: center;">
         <div style="grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; background-color: ${pollution.color}; color: #fff; padding: 4px 0; border-radius: 4px;">
             <span style="font-weight: bold;">${pollution.level}</span>
         </div>
-        ${generateIndicatorWithColorBox('PM2.5', data.pm25.toFixed(2))}
-        ${generateIndicatorWithColorBox('PM10', data.pm10.toFixed(2))}
-        ${generateIndicatorWithColorBox('NO2', data.no2.toFixed(2))}
-        ${generateIndicatorWithColorBox('CO', data.co.toFixed(2))}
-        ${generateIndicatorWithColorBox('O3', data.o3.toFixed(2))}
-        ${generateIndicatorWithColorBox('SO2', data.so2.toFixed(2))}
+        ${generateIndicatorWithColorBox('PM2.5', data.pm25.toFixed(2), maxvalue)}
+        ${generateIndicatorWithColorBox('PM10', data.pm10.toFixed(2), maxvalue)}
+        ${generateIndicatorWithColorBox('NO2', data.no2.toFixed(2), maxvalue)}
+        ${generateIndicatorWithColorBox('CO', data.co.toFixed(2), maxvalue)}
+        ${generateIndicatorWithColorBox('O3', data.o3.toFixed(2), maxvalue)}
+        ${generateIndicatorWithColorBox('SO2', data.so2.toFixed(2), maxvalue)}
         <div style="grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; font-size: 0.85rem;">
             <div style="margin: 4px 0; display: flex; align-items: center;">
                 <i style="margin-right: 5px; color: #777;" class="fas fa-cloud-rain"></i>

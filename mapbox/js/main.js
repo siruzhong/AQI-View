@@ -33,10 +33,10 @@ map.on('mouseenter', '1085-stations-1cyyg4', function (e) {
 });
 
 // 当鼠标离开站点时移除数据
-// map.on('mouseleave', '1085-stations-1cyyg4', function () {
-//     map.getCanvas().style.cursor = '';
-//     popup.remove();
-// });
+map.on('mouseleave', '1085-stations-1cyyg4', function () {
+    map.getCanvas().style.cursor = '';
+    popup.remove();
+});
 
 // 添加点击事件监听器
 map.on('click', function (e) {
