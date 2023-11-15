@@ -1,6 +1,6 @@
 // 定义经纬度范围
-const latRange = [53.714166, 18.424216];
-const lngRange = [73.683851, 135.383069];
+const latRange = [51.514166, 18.424216];
+const lngRange = [75.383851, 132.383069];
 
 // 初始化格网大小和格网数据数组
 let gridSize = 1;
@@ -70,7 +70,7 @@ async function addHeatmapLayer() {
             'fill-outline-color': 'rgba(0,0,0,0.1)',
         },
         layout: {
-            'visibility': 'visible'  // 初始设置为可见
+            'visibility': 'none'  // 初始设置为可见
         }
     });
 }
