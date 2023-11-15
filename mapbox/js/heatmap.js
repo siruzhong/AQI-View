@@ -88,7 +88,7 @@ async function addHeatmapLayer() {
             'fill-outline-color': 'rgba(0,0,0,0.1)',
         },
         layout: {
-            'visibility': 'none'  // 初始设置为可见
+            'visibility': 'visible'  // 初始设置为可见
         }
     });
 }
