@@ -187,12 +187,12 @@ function fetchDataForLocation(lngLat, callback) {
     }
 
     const data = {
-        pm25: getRandomInt(0, 500),          // PM2.5的范围: 0-500 μg/m³
-        pm10: getRandomInt(0, 500),         // PM10的范围: 0-500 μg/m³
-        no2: getRandomInt(0, 200),           // NO2的范围: 0-200 ppb
+        pm25: getRandomInt(0, 100),          // PM2.5的范围: 0-500 μg/m³
+        pm10: getRandomInt(0, 100),         // PM10的范围: 0-500 μg/m³
+        no2: getRandomInt(0, 100),           // NO2的范围: 0-200 ppb
         co: getRandomInt(0, 10),             // CO的范围: 0-10 ppm
-        o3: getRandomInt(0, 500),            // O3的范围: 0-500 ppb
-        so2: getRandomInt(0, 500),           // SO2的范围: 0-500 ppb
+        o3: getRandomInt(0, 100),            // O3的范围: 0-500 ppb
+        so2: getRandomInt(0, 100),           // SO2的范围: 0-500 ppb
         rainfall: getRandomInt(0, 50),     // 降雨量的范围: 0-50 mm
         temperature: getRandomInt(-30, 50),  // 温度的范围: -30-50 °C
         pressure: getRandomInt(900, 1100),   // 气压的范围: 900-1100 hPa

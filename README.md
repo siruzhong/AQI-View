@@ -1,29 +1,25 @@
-# Air-Quality-System
-> 空气质量综合管理与推断系统
+# AQIView: Air Quality Visualization Tool
 
-## 项目目标
-为用户提供一个实时、细粒度的空气质量监测和预测平台，该平台不仅基于传统的监测站数据，还结合了各种城市数据和非传统感知方法，以提供更广泛、准确的空气质量信息。
+## Introduction
+AQIView is a web-based tool for visualizing air quality data across Mainland China. It offers a user-friendly interface with interactive maps, enabling comprehensive analysis and insights into environmental data.
 
-## 主要功能与组件
+## Project Structure
+- `/assets` - Graphical assets used in the project.
+- `/css` - Cascading Style Sheets for styling the web pages.
+- `/data` - Data files for air quality indices and related information.
+- `/js` - JavaScript files containing the logic and functions of the application:
+  - `data.js` - Manages the fetching and organization of air quality data.
+  - `heatmap.js` - Generates the heatmap for visualizing data.
+  - `interpolation.js` - Handles interpolation for areas without data.
+  - `main.js` - The main script that initializes and runs the application.
+  - `style.js` - Contains functions related to the dynamic styling of the application.
+  - `tool.js` - Includes utility functions used across the application.
+- `index.html` - The main entry point for the AQIView application.
+- `nginx.conf` - Configuration file for the NGINX server if deployment is needed.
+- `.gitignore` - Specifies intentionally untracked files to ignore.
 
-### 1. 数据采集
-- 从已有的空气质量监测站获取实时数据。
-- 集成其他城市数据，如交通流量、人口移动、道路网络结构、兴趣点(POIs)等。
-- 使用非传统感知方法，如街景图像、社交媒体数据等，来估算或捕捉空气质量信息。
+## Getting Started
+To run AQIView, simply open `index.html` in your web browser. No additional setup is required for local use.
 
-### 2. 数据处理与分析
-- 使用时间序列分析和机器学习模型预测未来的空气质量。
-- 结合空间和时间数据，使用半监督学习方法进行推断，估计未被直接监测的区域的空气质量。
-
-### 3. 可视化界面
-- 提供一个交互式地图界面，展示实时和预测的空气质量数据。
-- 在地图上标记已有的空气质量监测站，点击可以查看详细数据。
-- 提供热力图功能，直观显示整个城市的空气质量状况。
-- 允许用户点击地图上任何位置，查看该位置的空气质量详细信息。
-
-### 4. 模型集成
-- 集成预测、推断和感知模型，为用户提供综合的信息。
-- 确保模型可以容易地更新和优化，以适应新的数据和研究进展。
-
-### 5. 扩展性
-- 系统设计应考虑到未来可能的拓展，如迁移到交通流量预测、集成更多的数据源和模型等。
+## Deployment
+For deployment, ensure that the NGINX server is configured using `nginx.conf`. Adjust settings according to your deployment environment.
